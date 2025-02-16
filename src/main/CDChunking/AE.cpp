@@ -5,6 +5,6 @@
 using namespace CDChunking;
 
 
-void AE::chunk() {
+void AE::operator() () {
     ;
 }

@@ -14,7 +14,7 @@ namespace CDChunking {
     {
     protected:
     public:
-        virtual void chunk() = 0;
+        virtual void operator() () = 0;
     };
 
 
@@ -23,7 +23,7 @@ namespace CDChunking {
         public Chunker
     {
     public:
-        virtual void chunk() override;
+        virtual void operator() () override;
     };
 
 
@@ -32,7 +32,7 @@ namespace CDChunking {
         public Chunker 
     {
         public:
-        virtual void chunk() override;
+        virtual void operator() () override;
     };
 
 
