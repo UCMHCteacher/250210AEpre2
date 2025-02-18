@@ -26,7 +26,7 @@ ArgumentHandler::RTVar::HandlingProcess(std::string & arg) {
         if (CtrlFlag::argErrorAction == CtrlFlag::ArgErrorAction::EXIT) {
             exit(0);
         }
-    }
+    }// TODO: Prettier Message
 
     listFind->second.setValue(valueStr);
 }

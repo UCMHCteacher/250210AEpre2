@@ -22,5 +22,5 @@ ArgumentHandler::RTVar::Param::Register(
     );
     if (!emplaceResult.second) {
         std::cout << "Failed in inserting \"" << name << "\" into RTVar::Param::list.\n";
-    };
+    };// TODO: More pretty info and error handle
 }

@@ -6,5 +6,5 @@
 
 void 
 BootSequence() {
-    ;
+    ; // TODO: Boot tasks
 }

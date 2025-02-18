@@ -1,6 +1,7 @@
 #pragma once
 
 #include<cstdint>
+#include<memory>
 
 #include"CDChunking.hpp"
 
@@ -14,9 +15,9 @@
 
 
 namespace ToolChain {
-    // extern streamGenerator
-    extern CDChunking::Chunker *  chunker;
-    // extern chunkProcessor
+    // TODO: extern streamGenerator
+    extern std::unique_ptr<CDChunking::Chunker> chunker;
+    // TODO: extern chunkProcessor
 
 
 
@@ -30,7 +31,7 @@ namespace ToolChain {
         extern SourceType sourceType;
 
         extern std::string sourceFileName;
-        // extern NetworkRecord
+        // TODO: extern NetworkRecord
 
         enum class ChunkerType {
             AE,
@@ -40,8 +41,8 @@ namespace ToolChain {
         extern uint8_t chunkerIntervalLength;
         extern uint16_t chunkerWindowWidth;
 
-        // infos for chunkProcessor
-        // infos for intervalProcessor
+        // TODO: infos for chunkProcessor
+        // TODO: infos for intervalProcessor
 
         extern void Build();
     } // namespace Builder

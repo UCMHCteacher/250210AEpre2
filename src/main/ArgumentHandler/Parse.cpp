@@ -92,13 +92,13 @@ ArgumentHandler::Parse(int _argc, char * _argv[]) {
 
 
 
-    // if help
+    // TODO: if help
 
-    // if file...
+    // TODO: if file...
 
     for (auto &  argi : argList) {
         RTVar::HandlingProcess(argi);
     }
 
-    // if console...
+    // TODO: if console...
 }
