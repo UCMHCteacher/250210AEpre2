@@ -122,5 +122,5 @@ namespace ArgumentHandler {
 
 
 
-    extern void WholeProcess(int argc, char * argv[]);
+    extern void Parse(int argc, char * argv[]);
 } // namespace ArgumentHandler

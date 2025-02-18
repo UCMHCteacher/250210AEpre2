@@ -15,7 +15,7 @@
 
 
 void 
-ArgumentHandler::WholeProcess(int _argc, char * _argv[]) {
+ArgumentHandler::Parse(int _argc, char * _argv[]) {
     CtrlFlag::Param::ListInit();
 
 

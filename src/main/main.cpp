@@ -5,8 +5,8 @@
 
 int main(int argc, char * argv[]) {
     BootSequence();
-    ArgumentHandler::WholeProcess(argc, argv);
-    ToolChain::Builder::Start();
+    ArgumentHandler::Parse(argc, argv);
+    ToolChain::Builder::Build();
     ToolChain::StartProcess();
     return 0;
 }
