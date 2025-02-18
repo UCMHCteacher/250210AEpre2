@@ -3,6 +3,7 @@
 #include<cstdint>
 #include<memory>
 
+#include"StreamGenerator.hpp"
 #include"CDChunking.hpp"
 
 
@@ -15,7 +16,7 @@
 
 
 namespace ToolChain {
-    // TODO: extern streamGenerator
+    extern std::unique_ptr<StreamGenerators::StreamGenerator> streamGenerator;
     extern std::unique_ptr<CDChunking::Chunker> chunker;
     // TODO: extern chunkProcessor
 
