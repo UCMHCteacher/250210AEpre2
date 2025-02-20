@@ -21,12 +21,23 @@ ToolChain::Builder::chunkerType = ToolChain::Builder::ChunkerType::AE;
 std::unique_ptr<CDChunking::Chunker>
 ToolChain::chunker = nullptr;
 
+uint8_t 
+ToolChain::Builder::chunkerIntervalLength = 1;
+uint16_t 
+ToolChain::Builder::chunkerWindowWidth = 256;
+
+uint8_t 
+ToolChain::Builder::chunkerThreadnum = 2;
+
+
 void 
 ToolChain::Builder::Build() {
     switch (sourceType) 
     {
     case SourceType::File:
         streamGenerator = std::make_unique<StreamGenerators::FileStreamGenerator>(sourceFileName);
+        std::cout << "Opening file: " << sourceFileName << '\n';
+        break;
     case SourceType::Network:
         // break; // TODO: network Class init
     default:
@@ -41,6 +52,7 @@ ToolChain::Builder::Build() {
             chunkerIntervalLength, 
             chunkerWindowWidth
         );
+        std::cout << "Built an AE Chunker with interval=" << static_cast<int>(chunkerIntervalLength) << " & windowWidth=" << chunkerWindowWidth << '\n';
         break;
     case ChunkerType::MaxP:
         // break; // TODO: MaxP Class init

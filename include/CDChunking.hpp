@@ -15,7 +15,7 @@ namespace CDChunking {
     {
     protected:
     public:
-        virtual void chunk(std::unique_ptr<std::istream> stream) = 0;
+        virtual void chunk(std::shared_ptr<std::istream> stream) = 0;
     };
 
 
@@ -28,7 +28,7 @@ namespace CDChunking {
         uint16_t _windowWidth;
 
     public:
-        virtual void chunk(std::unique_ptr<std::istream> stream) override;
+        virtual void chunk(std::shared_ptr<std::istream> stream) override;
     
     public:
         AE(uint8_t intervalLength, uint16_t windowWidth);
@@ -41,7 +41,7 @@ namespace CDChunking {
         public Chunker 
     {
     public:
-        virtual void chunk(std::unique_ptr<std::istream> stream) override;
+        virtual void chunk(std::shared_ptr<std::istream> stream) override;
     };
 
 

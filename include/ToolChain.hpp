@@ -42,6 +42,8 @@ namespace ToolChain {
         extern uint8_t chunkerIntervalLength;
         extern uint16_t chunkerWindowWidth;
 
+        extern uint8_t chunkerThreadnum;
+
         // TODO: infos for chunkProcessor
         // TODO: infos for intervalProcessor
 

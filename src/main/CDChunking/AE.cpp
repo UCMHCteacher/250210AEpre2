@@ -6,7 +6,7 @@ using namespace CDChunking;
 
 
 
-void AE::chunk(std::unique_ptr<std::istream> stream) {
+void AE::chunk(std::shared_ptr<std::istream> stream) {
     ; // TODO: AE Algo
 }
 
