@@ -29,6 +29,6 @@
 .vscode/
 
 # complied files
-release/
+build/
 test/
 !src/test/
