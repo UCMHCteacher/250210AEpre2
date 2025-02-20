@@ -37,7 +37,10 @@ ToolChain::Builder::Build() {
     switch (chunkerType)
     {
     case ChunkerType::AE:
-        chunker = std::make_unique<CDChunking::AE>(); // TODO: init of AE object
+        chunker = std::make_unique<CDChunking::AE>(
+            chunkerIntervalLength, 
+            chunkerWindowWidth
+        );
         break;
     case ChunkerType::MaxP:
         // break; // TODO: MaxP Class init
