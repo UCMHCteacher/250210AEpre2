@@ -23,7 +23,7 @@ ArgumentHandler::Parse(int _argc, char * _argv[]) {
 
 
     std::vector<std::string> argList;
-    for (int argi=0; argi<_argc; argi++) {
+    for (int argi=1; argi<_argc; argi++) {
         argList.emplace_back(_argv[argi]);
     }
 
