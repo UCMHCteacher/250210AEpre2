@@ -1,5 +1,3 @@
-#pragma once
-
 #include<iostream>
 
 #include"ArgumentHandler.hpp"
@@ -63,10 +61,12 @@ CtrlFlag::Param::Register(
     }
 
     CtrlFlag::Param::list.emplace_back(
-        std::move(nameList),
-        setValue,
-        std::move(acceptableValue),
-        std::move(description)
+        ListItem({
+            nameList,
+            setValue,
+            acceptableValue,
+            description
+        })
     );
 }
 

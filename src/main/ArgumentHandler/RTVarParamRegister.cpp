@@ -15,10 +15,12 @@ ArgumentHandler::RTVar::Param::Register(
 ) {
     auto emplaceResult = ArgumentHandler::RTVar::Param::list.try_emplace(
         ArgStringHash(name),
+        ListItem({
             name,
             setValue,
             acceptableValue,
             description
+        })
     );
     if (!emplaceResult.second) {
         std::cout << "Failed in inserting \"" << name << "\" into RTVar::Param::list.\n";
