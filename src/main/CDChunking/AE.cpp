@@ -6,11 +6,19 @@ using namespace CDChunking;
 
 
 
-void AE::chunk(std::shared_ptr<std::istream> stream) { // TODO: renames
+void AE::chunk(std::shared_ptr<std::istream> stream) {
+    uint32_t thisStreamNum;
+    {
+        std::lock_guard lk(_streamCountMutex);
+        thisStreamNum = _streamCount;
+        _streamCount++;
+    }
+
+
     std::size_t nowPos = -1;
     uint8_t nowData;
     
-    int chunkNum = 0;
+    uint32_t chunkNum = 0;
     std::vector<uint8_t> chunkData;
     std::size_t chunkBeginPos = 0;
 
@@ -66,5 +74,7 @@ void AE::chunk(std::shared_ptr<std::istream> stream) { // TODO: renames
 AE::AE(uint8_t intervalLength, uint16_t windowWidth): 
     _intervalLength(intervalLength),
     _windowWidth(windowWidth)
-{}
+{
+    _streamCount = 0;
+}
 AE::~AE() {}
