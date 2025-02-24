@@ -31,7 +31,7 @@ ToolChain::Builder::chunkerThreadnum = 2;
 
 
 
-std::mutex _coutMutex{};
+std::mutex ToolChain::_coutMutex{};
 
 // uint8_t
 // ToolChain::Builder::chunkProcessThreadNum = 8;
@@ -59,6 +59,9 @@ ToolChain::Builder::Build() {
         break;
     }
 
+    std::shared_ptr<CDChunking::ChunkProcessInterface> chunkProcess = 
+        std::make_shared<CDChunking::MainChunkProcessor>(chunkProcessorActionMode);
+
     switch (chunkerType)
     {
     case ChunkerType::AE:
@@ -66,6 +69,7 @@ ToolChain::Builder::Build() {
             chunkerIntervalLength, 
             chunkerWindowWidth
         );
+        chunker->SetChunkProcessor(chunkProcess);
         std::cout << "Built an AE Chunker with interval=" << static_cast<int>(chunkerIntervalLength) << " & windowWidth=" << chunkerWindowWidth << '\n';
         break;
     case ChunkerType::MaxP:
