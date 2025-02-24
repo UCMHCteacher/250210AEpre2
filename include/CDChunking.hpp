@@ -135,13 +135,13 @@ namespace CDChunking {
         };
     protected:
         ActionMode _actionMode;
+        std::shared_ptr<ConsolePrinter> _consolePrinter;
 
     
     public:
         void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
 
         MainChunkProcessor(ActionMode actionMode);
-        MainChunkProcessor();
     };
 
 } // namespace CDChunking
