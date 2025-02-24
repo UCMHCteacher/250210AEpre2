@@ -18,9 +18,9 @@ namespace StreamGenerators
         bool _alive;
 
     public:
-        virtual std::unique_ptr<std::istream> getStream() = 0;
+        virtual std::shared_ptr<std::istream> getStream() = 0;
     protected:
-        std::unique_ptr<std::istream> _stream;
+        std::shared_ptr<std::istream> _stream;
     };
 
 
@@ -29,7 +29,7 @@ namespace StreamGenerators
     {
     public:
         virtual bool isAlive();
-        virtual std::unique_ptr<std::istream> getStream();
+        virtual std::shared_ptr<std::istream> getStream();
 
     public:
         FileStreamGenerator(std::string fileName);
