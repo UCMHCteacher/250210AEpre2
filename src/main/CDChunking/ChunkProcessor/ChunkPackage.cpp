@@ -11,20 +11,25 @@ ChunkPackage::ChunkPackage(
     uint32_t chunkNum, 
     std::vector<uint8_t> && chunkData, 
     std::size_t chunkBeginPos,
-    std::size_t chunkEndPos,
-    std::size_t chunkSize
+    std::size_t chunkEndPos
 ) :
     _streamNum(streamNum),
     _chunkNum(chunkNum),
+
     _data(chunkData),
+    _datahash(0),
+
     _beginPos(chunkBeginPos),
     _endPos(chunkEndPos),
-    _chunkSize(chunkSize)
+    _chunkSize(chunkData.size())
 {};
 ChunkPackage::ChunkPackage(const ChunkPackage & other) :
     _streamNum(other._streamNum),
     _chunkNum(other._chunkNum),
+
     _data(std::cref(other._data)),
+    _datahash(other._datahash),
+
     _beginPos(other._beginPos),
     _endPos(other._endPos),
     _chunkSize(other._chunkSize)
@@ -32,7 +37,10 @@ ChunkPackage::ChunkPackage(const ChunkPackage & other) :
 ChunkPackage::ChunkPackage(ChunkPackage && other) :
     _streamNum(other._streamNum),
     _chunkNum(other._chunkNum),
+
     _data(std::move(other._data)),
+    _datahash(other._datahash),
+
     _beginPos(other._beginPos),
     _endPos(other._endPos),
     _chunkSize(other._chunkSize)

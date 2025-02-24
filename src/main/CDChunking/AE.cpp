@@ -1,4 +1,5 @@
 #include"CDChunking.hpp"
+#include"ToolChain.hpp"
 
 
 
@@ -38,12 +39,18 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
 
 
         if (nowPos - maxPos == _windowWidth) {
-            // cout<< "Chunk Number: " << chunkNum << " {\n"
-            // << "\tBegin Position: " << chunkBeginPos << "\n"
-            // << "\tEnd Posotion: " << nowPos << "\n"
-            // << "\tChunk Length: " << chunk.size() << "\n"
-            // << "}\n\n";
-            // 
+            std::shared_ptr<ChunkPackage> package = std::make_shared<ChunkPackage>(
+                thisStreamNum,
+                chunkNum,
+                std::move(chunkData),
+                chunkBeginPos,
+                nowPos
+            );
+            ToolChain::chunkProcessPool.enqueue_void(
+                [chunkProcessor = this->_chunkProcessor, package]() {
+                    (*chunkProcessor)(package);
+                }
+            );
 
             // next chunk 
             chunkData = {};
@@ -62,11 +69,18 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
     if (chunkData.size() == 0) {
         return;
     }
-    // cout<< "Chunk Number: " << chunkNum << " {\n"
-    //     << "\tBegin Position: " << chunkBeginPos << "\n"
-    //     << "\tEnd Posotion: " << nowPos << "\n"
-    //     << "\tChunk Length: " << chunk.size() << "\n"
-    //     << "}\n\n";
+    std::shared_ptr<ChunkPackage> package = std::make_shared<ChunkPackage>(
+        thisStreamNum,
+        chunkNum,
+        std::move(chunkData),
+        chunkBeginPos,
+        nowPos
+    );
+    ToolChain::chunkProcessPool.enqueue_void(
+        [chunkProcessor = this->_chunkProcessor, package]() {
+            (*chunkProcessor)(package);
+        }
+    );
 }
 
 
@@ -75,6 +89,7 @@ AE::AE(uint8_t intervalLength, uint16_t windowWidth):
     _intervalLength(intervalLength),
     _windowWidth(windowWidth)
 {
+    _chunkProcessor = nullptr;
     _streamCount = 0;
 }
 AE::~AE() {}

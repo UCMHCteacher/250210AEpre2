@@ -5,6 +5,7 @@
 
 #include"StreamGenerator.hpp"
 #include"CDChunking.hpp"
+#include"ThreadPool.hpp"
 
 
 
@@ -18,6 +19,8 @@
 namespace ToolChain {
     extern std::unique_ptr<StreamGenerators::StreamGenerator> streamGenerator;
     extern std::unique_ptr<CDChunking::Chunker> chunker;
+
+    extern ThreadPool chunkProcessPool;
     // TODO: extern chunkProcessor
 
 
@@ -34,6 +37,8 @@ namespace ToolChain {
         extern std::string sourceFileName;
         // TODO: extern NetworkRecord
 
+
+
         enum class ChunkerType {
             AE,
             MaxP
@@ -44,12 +49,17 @@ namespace ToolChain {
 
         extern uint8_t chunkerThreadnum;
 
-        // TODO: infos for chunkProcessor
-        // TODO: infos for intervalProcessor
+
+
+        // extern uint8_t chunkProcessThreadNum;
+        extern CDChunking::MainChunkProcessor::ActionMode chunkProcessorActionMode;
+
+
 
         extern void Build();
     } // namespace Builder
 
+    extern std::mutex _coutMutex;
 
 
     extern void StartProcess();

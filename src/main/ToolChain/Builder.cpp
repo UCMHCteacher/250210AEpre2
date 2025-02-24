@@ -30,6 +30,20 @@ uint8_t
 ToolChain::Builder::chunkerThreadnum = 2;
 
 
+
+std::mutex _coutMutex{};
+
+// uint8_t
+// ToolChain::Builder::chunkProcessThreadNum = 8;
+
+CDChunking::MainChunkProcessor::ActionMode 
+ToolChain::Builder::chunkProcessorActionMode = CDChunking::MainChunkProcessor::ActionMode::PrintToConsole;
+
+ThreadPool
+ToolChain::chunkProcessPool(8);
+
+
+
 void 
 ToolChain::Builder::Build() {
     switch (sourceType) 
