@@ -3,4 +3,7 @@
 
 
 
+
+void RTVarRegister();
+
 // TODO: Boot Tasks
