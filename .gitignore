@@ -27,8 +27,9 @@
 
 # vscode auto generated settings
 .vscode/
+.vs/
 
 # complied files
+out/
 build/
-test/
-!src/test/
+CMakeSettings.json
