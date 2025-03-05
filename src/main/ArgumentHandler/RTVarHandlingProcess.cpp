@@ -10,7 +10,7 @@ void
 ArgumentHandler::RTVar::HandlingProcess(std::string & arg) {
     std::size_t assignCharPos = arg.find_first_of('=');
 
-    std::string paramStr = arg.substr(1, assignCharPos - 1); // if pos of '=' is npos(aka -1), it still returns [1, size)
+    std::string paramStr = arg.substr(0, assignCharPos); // if pos of '=' is npos(aka -1), it still returns [1, size)
     std::string valueStr = 
         assignCharPos != std::string::npos ?
         arg.substr(assignCharPos + 1)  :  "";
@@ -19,7 +19,7 @@ ArgumentHandler::RTVar::HandlingProcess(std::string & arg) {
         ArgStringHash(paramStr)
     );
     if (listFind == RTVar::Param::list.end()) {
-        std::cout << "Param name \"" << paramStr << "\"Not Found!\n";
+        std::cout << "Param name \"" << paramStr << "\" Not Found!\n";
         if (CtrlFlag::argErrorAction == CtrlFlag::ArgErrorAction::OUTPUT) {
             return;
         }

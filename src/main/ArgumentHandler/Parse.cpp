@@ -74,7 +74,7 @@ ArgumentHandler::Parse(int _argc, char * _argv[]) {
                 ArgStringHash(paramStr)
             );
             if (lookupListFind == CtrlFlag::Param::lookupList.end()) {
-                std::cout << "Param name \"" << paramStr << "\"Not Found!\n";
+                std::cout << "Param name \"" << paramStr << "\" Not Found!\n";
                 continue;
             }
             listPos = lookupListFind->second;
