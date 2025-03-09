@@ -41,6 +41,7 @@ list(APPEND
     ${MySQL_LIB}
     ${Packet_LIB}
     ${wpcap_LIB}
+    ws2_32.lib
 )
 
 
