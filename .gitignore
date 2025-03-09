@@ -19,6 +19,7 @@
 *.la
 *.a
 *.lib
+imports/
 
 # Executables
 *.exe
@@ -30,6 +31,4 @@
 .vs/
 
 # complied files
-out/
-build/
-CMakeSettings.json
+.cmakebuild/

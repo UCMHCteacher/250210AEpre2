@@ -1,29 +1,63 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(AEChunkProgram VERSION 1.0 LANGUAGES CXX)
+project(ProjName VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 递归查找所有 .cpp 和 .h 文件
-file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 
-# 将所有文件设置为源文件列表
-set(SOURCE_FILES
+
+
+
+
+
+
+# 递归查找所有 .cpp 文件
+file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+list(APPEND
+    ALL_SRC_FILES
     ${SRC_FILES}
-    ${HEADER_FILES}
 )
 
-# 遍历所有子目录并添加到包含路径中
-get_filename_component(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" ABSOLUTE)
-file(GLOB_RECURSE SUB_DIRS LIST_DIRECTORIES true ${ROOT_DIR}/*)
 
-foreach(SUB_DIR ${SUB_DIRS})
-    if(IS_DIRECTORY ${SUB_DIR})
-        include_directories(${SUB_DIR})
-    endif()
-endforeach()
+
+list(APPEND
+    ALL_INCLUDE_DIRS
+    "./include"
+)
+
+
+
+
+
+include(Configs.cmake)
+
+find_library(MySQL_LIB mysqlcppconn.lib PATHS ${MySQL_LIB_DIR})
+find_library(Packet_LIB Packet.lib PATHS ${Npcap_LIB_DIR})
+find_library(wpcap_LIB wpcap.lib PATHS ${Npcap_LIB_DIR})
+list(APPEND
+    ALL_LIB_FILES
+    ${MySQL_LIB}
+    ${Packet_LIB}
+    ${wpcap_LIB}
+)
+
+
+list(APPEND
+    ALL_INCLUDE_DIRS
+    ${MySQL_INCLUDE_DIR}
+    ${Npcap_INCLUDE_DIR}
+)
+
+
+
+
+
+
+
 
 # 添加可执行目标
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} ${ALL_SRC_FILES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${ALL_LIB_FILES})
+include_directories(${ALL_INCLUDE_DIRS})
