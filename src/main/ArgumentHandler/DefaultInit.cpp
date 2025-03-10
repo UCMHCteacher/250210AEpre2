@@ -79,7 +79,7 @@ CtrlFlag::Param::ListInit() {
     CtrlFlag::Param::Register(
         {"help","h"},
         [](std::string & valueStr){;},
-        "",
+        "<network|...>",
         "Print help messages"
     );// TODO: help messages with hint word
 

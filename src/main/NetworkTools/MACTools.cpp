@@ -1,3 +1,5 @@
+#include<Packet32.h>
+
 #include"NetworkTools.hpp"
 
 

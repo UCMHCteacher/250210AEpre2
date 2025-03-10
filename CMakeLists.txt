@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ProjName VERSION 1.0 LANGUAGES CXX)
+project(AEChunkProgram VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -62,3 +62,4 @@ list(APPEND
 add_executable(${PROJECT_NAME} ${ALL_SRC_FILES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${ALL_LIB_FILES})
 include_directories(${ALL_INCLUDE_DIRS})
+target_compile_definitions(${PROJECT_NAME} PRIVATE "BPF_MAJOR_VERSION")
