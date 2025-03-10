@@ -15,15 +15,15 @@ public:
     ThreadPool(size_t numThreads);
     ~ThreadPool();
 
-    // 禁止复制和赋值
+
     ThreadPool(const ThreadPool&) = delete;
     ThreadPool& operator=(const ThreadPool&) = delete;
 
-    // 提交任务并返回一个future对象（支持非void返回类型）
+
     template <typename F, typename... Args>
     auto enqueue(F&& f, Args&&... args) -> std::future<typename std::result_of<F(Args...)>::type>;
 
-    // 提交任务（支持void返回类型）
+
     template <typename F, typename... Args>
     void enqueue_void(F&& f, Args&&... args);
 
