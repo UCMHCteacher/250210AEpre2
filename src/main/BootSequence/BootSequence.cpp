@@ -10,5 +10,6 @@ void
 BootSequence() {
     ThreadPool bootTaskPool(8);
     bootTaskPool.enqueue_void(RTVarRegister);
+    bootTaskPool.enqueue_void(NetworkInit);
     ; // TODO: Boot tasks
 }

@@ -9,7 +9,6 @@
 #include<ntddndis.h>
 
 #include<pcap.h>
-#include<Packet32.h>
 
 
 
