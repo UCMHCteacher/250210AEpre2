@@ -35,7 +35,7 @@ namespace ToolChain {
         extern SourceType sourceType;
 
         extern std::string sourceFileName;
-        // TODO: extern NetworkRecord
+        extern uint16_t networkNum;
 
 
 

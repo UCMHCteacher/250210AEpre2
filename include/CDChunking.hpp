@@ -128,6 +128,7 @@ namespace CDChunking {
     {
     public:
         enum ActionMode : uint32_t {
+            Nothing             = 0,
             PrintToConsole      = 1UL << 0,
             LogToFile           = 1UL << 1,
             RecordToDataBase    = 1UL << 2,

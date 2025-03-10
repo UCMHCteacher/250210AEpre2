@@ -10,6 +10,9 @@ ToolChain::Builder::sourceType = ToolChain::Builder::SourceType::File;
 std::string
 ToolChain::Builder::sourceFileName = "111.txt";
 
+uint16_t
+ToolChain::Builder::networkNum = 0;
+
 std::unique_ptr<StreamGenerators::StreamGenerator>
 ToolChain::streamGenerator = nullptr;
 
