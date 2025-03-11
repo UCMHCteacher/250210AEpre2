@@ -18,7 +18,4 @@ void NetworkInit() {
 			"Please check your network configuration!\n\n\n";
 		return;
 	}
-
-    printNetworkList(networkList);
-	std::cout << "There are " << networkList.size() << " networks in total.\n\n\n";
 }

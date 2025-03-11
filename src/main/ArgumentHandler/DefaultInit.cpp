@@ -1,6 +1,7 @@
 #include<iostream>
 
 #include"ArgumentHandler.hpp"
+#include"PrintHelpMessages.hpp"
 
 
 
@@ -78,8 +79,34 @@ CtrlFlag::Param::ListInit() {
     // -help
     CtrlFlag::Param::Register(
         {"help","h"},
-        [](std::string & valueStr){;},
-        "<network|...>",
+        [](std::string & valueStr){
+            if (
+                ArgStringHash(valueStr) ==
+                ArgStringHash("network")
+            ) {
+                PrintNetworkList(0);
+            }
+            else if (
+                ArgStringHash(valueStr) ==
+                ArgStringHash("RTVarParam")
+            ) {
+                PrintRTVarParamList(0);
+            }
+            else if (
+                ArgStringHash(valueStr) ==
+                ArgStringHash("CtrlFlagParam")
+            ) {
+                PrintCtrlFlagParamList(0);
+            }
+            else {
+                std::cout 
+                    << "There's no help aspect called " << valueStr << ".\n"
+                    << "But we will still print all help messages for you.\n";
+                PrintAllHelpMessages();
+            }
+            std::exit(0);
+        },
+        "<network|RTVarParam|CtrlFlagParam>",
         "Print help messages"
     );// TODO: help messages with hint word
 

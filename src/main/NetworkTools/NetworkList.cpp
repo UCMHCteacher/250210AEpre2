@@ -115,20 +115,3 @@ bool getNetworkList(NetworkList& networkList, std::string& errorbuf) {
 
 
 
-void printNetworkList(NetworkList& networkList) {
-	std::cout << "NetworkList: {\n";
-
-
-	for (int i = 0; i < networkList.size();i++) {
-		std::cout << "\tNetwork" << i << ": {\n";
-		std::cout << "\t\tNetwork Address: \"" << inet_ntoa(networkList[i].networkAddr) << "\"\n";
-		std::cout << "\t\tNetwork Mask: \"" << inet_ntoa(networkList[i].networkMask) << "\"\n";
-		std::cout << "\t\tDevice IP Address: \"" << inet_ntoa(networkList[i].deviceIPAddr) << "\"\n"
-			<< "\t\tDevice MAC Address: \"" << macAddrtoString(networkList[i].deviceMACAddr) << "\"\n"
-			<< "\t\tDevice Name: \"" << networkList[i].deviceName << "\"\n"
-			<< "\t\tDevice Description: \"" << networkList[i].deviceDescription << "\"\n"
-			<< "\t},\n\n";
-	}
-
-	std::cout << "}\n\n\n";
-}
