@@ -30,14 +30,15 @@ void PrintNetworkList(int indentCount) {
     
     
     for (int i = 0; i < networkList.size(); i++) {
+        NetworkNode const & network = networkList[i];
         std::cout 
             << Indents(indentCount+1) << "Network" << i << ": {\n"
-            << Indents(indentCount+2) << "Network Address: \"" << inet_ntoa(networkList[i].networkAddr) << "\"\n"
-            << Indents(indentCount+2) << "Network Mask: \"" << inet_ntoa(networkList[i].networkMask) << "\"\n"
-            << Indents(indentCount+2) << "Device IP Address: \"" << inet_ntoa(networkList[i].deviceIPAddr) << "\"\n"
-            << Indents(indentCount+2) << "Device MAC Address: \"" << macAddrtoString(networkList[i].deviceMACAddr) << "\"\n"
-            << Indents(indentCount+2) << "Device Name: \"" << networkList[i].deviceName << "\"\n"
-            << Indents(indentCount+2) << "Device Description: \"" << networkList[i].deviceDescription << "\"\n"
+            << Indents(indentCount+2) << "Network Address: \"" << inet_ntoa(network.networkAddr) << "\"\n"
+            << Indents(indentCount+2) << "Network Mask: \"" << inet_ntoa(network.networkMask) << "\"\n"
+            << Indents(indentCount+2) << "Device IP Address: \"" << inet_ntoa(network.deviceIPAddr) << "\"\n"
+            << Indents(indentCount+2) << "Device MAC Address: \"" << macAddrtoString(network.deviceMACAddr) << "\"\n"
+            << Indents(indentCount+2) << "Device Name: \"" << network.deviceName << "\"\n"
+            << Indents(indentCount+2) << "Device Description: \"" << network.deviceDescription << "\"\n"
             << Indents(indentCount+1) << "},\n";
     }
 
