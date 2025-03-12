@@ -57,7 +57,7 @@ bool getNetworkList(NetworkList& networkList, std::string& errorbuf) {
 		pcap_findalldevs(
 			&deviceList,
 			pcapErrorBuffer
-		) == -1
+		) == PCAP_ERROR
 		) {
 		errorbuf = "Failed in finding devices!\n" 
 				   "Error message: ";
