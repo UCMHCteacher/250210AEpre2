@@ -56,7 +56,9 @@ ToolChain::Builder::Build() {
         std::cout << "Opening file: " << sourceFileName << '\n';
         break;
     case SourceType::Network:
-        // break; // TODO: network Class init
+        streamGenerator = std::make_unique<StreamGenerators::NetworkStreamGenerator>(networkNum);
+        std::cout << "Using Network " << networkNum << '\n';
+        break;
     default:
         // exit(0); // TODO: graceful exit
         break;
