@@ -126,4 +126,6 @@ std::shared_ptr<std::istream> StreamGenerators::NetworkStreamGenerator::getStrea
         }
 
     } while(retVal == 0);
+
+    return nullptr;
 }
