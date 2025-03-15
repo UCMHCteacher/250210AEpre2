@@ -19,8 +19,6 @@
 namespace ToolChain {
     extern std::unique_ptr<StreamGenerators::StreamGenerator> streamGenerator;
     extern std::unique_ptr<CDChunking::Chunker> chunker;
-
-    extern ThreadPool chunkProcessPool;
     // TODO: extern chunkProcessor
 
 
@@ -51,7 +49,7 @@ namespace ToolChain {
 
 
 
-        // extern uint8_t chunkProcessThreadNum;
+        extern uint8_t chunkProcessThreadNum;
         extern CDChunking::MainChunkProcessor::ActionMode chunkProcessorActionMode;
 
 

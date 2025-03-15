@@ -14,6 +14,7 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
         thisStreamNum = _streamCount;
         _streamCount++;
     }
+    ThreadPool chunkProcessPool(ToolChain::Builder::chunkProcessThreadNum);
 
 
     std::size_t nowPos = -1;
@@ -46,7 +47,7 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
                 chunkBeginPos,
                 nowPos
             );
-            ToolChain::chunkProcessPool.enqueue_void(
+            chunkProcessPool.enqueue_void(
                 [chunkProcessor = this->_chunkProcessor, package]() {
                     (*chunkProcessor)(package);
                 }
@@ -76,7 +77,7 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
         chunkBeginPos,
         nowPos
     );
-    ToolChain::chunkProcessPool.enqueue_void(
+    chunkProcessPool.enqueue_void(
         [chunkProcessor = this->_chunkProcessor, package]() {
             (*chunkProcessor)(package);
         }
