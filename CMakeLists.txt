@@ -34,6 +34,8 @@ list(APPEND
 include(Configs.cmake)
 
 find_library(MySQL_LIB mysqlcppconn.lib PATHS ${MySQL_LIB_DIR})
+find_library(OpenSSL_SSL_LIB libssl.lib PATHS ${MySQL_LIB_DIR})
+find_library(OpenSSL_CRYPTO_LIB libcrypto.lib PATHS ${MySQL_LIB_DIR})
 find_library(Packet_LIB Packet.lib PATHS ${Npcap_LIB_DIR})
 find_library(wpcap_LIB wpcap.lib PATHS ${Npcap_LIB_DIR})
 list(APPEND
@@ -41,7 +43,7 @@ list(APPEND
     ${MySQL_LIB}
     ${Packet_LIB}
     ${wpcap_LIB}
-    # ${OpenSSL_SSL_LIB}
+    ${OpenSSL_SSL_LIB}
     ${OpenSSL_CRYPTO_LIB}
     ws2_32.lib
 )
