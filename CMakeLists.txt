@@ -41,6 +41,8 @@ list(APPEND
     ${MySQL_LIB}
     ${Packet_LIB}
     ${wpcap_LIB}
+    # ${OpenSSL_SSL_LIB}
+    ${OpenSSL_CRYPTO_LIB}
     ws2_32.lib
 )
 
@@ -49,6 +51,7 @@ list(APPEND
     ALL_INCLUDE_DIRS
     ${MySQL_INCLUDE_DIR}
     ${Npcap_INCLUDE_DIR}
+    ${OpenSSL_INCLUDE_DIR}
 )
 
 
