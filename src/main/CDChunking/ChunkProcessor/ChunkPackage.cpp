@@ -17,7 +17,7 @@ ChunkPackage::ChunkPackage(
     _chunkNum(chunkNum),
 
     _data(chunkData),
-    _datahash(0),
+    _datahash{},
 
     _beginPos(chunkBeginPos),
     _endPos(chunkEndPos),
@@ -28,7 +28,7 @@ ChunkPackage::ChunkPackage(const ChunkPackage & other) :
     _chunkNum(other._chunkNum),
 
     _data(std::cref(other._data)),
-    _datahash(other._datahash),
+    _datahash(std::cref(other._datahash)),
 
     _beginPos(other._beginPos),
     _endPos(other._endPos),
@@ -39,7 +39,7 @@ ChunkPackage::ChunkPackage(ChunkPackage && other) :
     _chunkNum(other._chunkNum),
 
     _data(std::move(other._data)),
-    _datahash(other._datahash),
+    _datahash(std::move(other._datahash)),
 
     _beginPos(other._beginPos),
     _endPos(other._endPos),

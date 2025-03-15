@@ -5,6 +5,10 @@
 #include<vector>
 #include<mutex>
 
+#include<openssl/sha.h>
+#include<openssl/ssl.h>
+#include<openssl/err.h>
+
 
 
 
@@ -15,7 +19,7 @@ namespace CDChunking {
         uint32_t _chunkNum;
 
         std::vector<uint8_t> _data;
-        uint64_t _datahash;
+        std::vector<uint8_t> _datahash;
 
         // data includes [beginPos, endPos].
         // so size = endPos - beginPos + 1;
@@ -95,11 +99,33 @@ namespace CDChunking {
 
 
 
-    struct NetworkSender :
+    // struct NetworkSender :
+    //     public ChunkProcessInterface
+    // {
+    // public:
+    //     virtual void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
+    // };
+
+
+
+    struct HashCalculator :
         public ChunkProcessInterface
     {
     public:
+        inline static std::mutex _hashMutex{};
+    protected:
+        EVP_MD_CTX * _ctx;
+        EVP_MD *  _mdAlgo;
+    protected:
+        bool _usable;
+
+    public:
         virtual void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
+
+    public:
+        HashCalculator();
+        HashCalculator(std::string const &  algoType);
+        ~HashCalculator();
     };
 
 
@@ -133,15 +159,16 @@ namespace CDChunking {
             LogToFile           = 1UL << 1,
             RecordToDataBase    = 1UL << 2,
             SendToNetwork       = 1UL << 3,
+            CompareWithDataBase = 1UL << 4,
         };
     protected:
         ActionMode _actionMode;
         std::shared_ptr<ConsolePrinter> _consolePrinter;
 
-    
     public:
         void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
 
+    public:
         MainChunkProcessor(ActionMode actionMode);
     };
 

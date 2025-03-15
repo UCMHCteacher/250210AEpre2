@@ -18,10 +18,10 @@ MainChunkProcessor::MainChunkProcessor(ActionMode actionMode) :
 
 void 
 MainChunkProcessor::operator() (std::shared_ptr<ChunkPackage> chunkPackage) {
-    // {std::lock_guard lkh(HashCalculator::_hashMutex);
-    //     HashCalculator h;
-    //     h(chunkPackage);
-    // }
+    {std::lock_guard lkh(HashCalculator::_hashMutex);
+        HashCalculator h;
+        h(chunkPackage);
+    }
     ThreadPool chunkActionPool(ToolChain::Builder::chunkProcessThreadNum);
 
     if (_actionMode & ActionMode::PrintToConsole) {
