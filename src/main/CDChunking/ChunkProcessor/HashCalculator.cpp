@@ -22,8 +22,8 @@ CDChunking::HashCalculator::HashCalculator() :
 
 
 CDChunking::HashCalculator::~HashCalculator() {
-    // EVP_MD_free(_mdAlgo);
-    // EVP_MD_CTX_free(_ctx);
+    EVP_MD_free(_mdAlgo);
+    EVP_MD_CTX_free(_ctx);
 }
 
 
@@ -59,5 +59,5 @@ CDChunking::HashCalculator::operator() (std::shared_ptr<ChunkPackage> chunkPacka
 
     chunkPackage->_datahash.assign(output, output+len);
 
-    // OPENSSL_free(output);
+    OPENSSL_free(output);
 }
