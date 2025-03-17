@@ -9,10 +9,16 @@ MainChunkProcessor::MainChunkProcessor(ActionMode actionMode) :
     _actionMode(actionMode)
 {
     if (actionMode & ActionMode::PrintToConsole) {
-        _consolePrinter = std::make_shared<ConsolePrinter>();
+        _processors.push_back(std::make_shared<ConsolePrinter>());
     }
-    else {
-        _consolePrinter = nullptr;
+    // if (actionMode & ActionMode::LogToFile) {
+    //     _processors.push_back(std::make_shared<Logger>());
+    // }
+    if (actionMode & ActionMode::RecordToDataBase) {
+        _processors.push_back(std::make_shared<DatabaseRecorder>());
+    }
+    if (actionMode & ActionMode::CompareWithDataBase) {
+        _processors.push_back(std::make_shared<DatabaseComparer>());
     }
 }
 
@@ -24,11 +30,11 @@ MainChunkProcessor::operator() (std::shared_ptr<ChunkPackage> chunkPackage) {
     }
     ThreadPool chunkActionPool(ToolChain::Builder::chunkProcessThreadNum);
 
-    if (_actionMode & ActionMode::PrintToConsole) {
+    for (auto &  _processor : _processors) {
         chunkActionPool.enqueue_void(
-            [_consolePrinter = this->_consolePrinter, chunkPackage]() {
-                (*_consolePrinter)(chunkPackage);
+            [processor = _processor, chunkPackage]() {
+                (*processor)(chunkPackage);
             }
         );
-    };
+    }
 };

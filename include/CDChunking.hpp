@@ -149,6 +149,16 @@ namespace CDChunking {
 
 
 
+    struct DatabaseComparer :
+        public ChunkProcessInterface
+    {
+    public:
+        virtual void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
+        ;
+    };
+
+
+
     struct MainChunkProcessor :
         public ChunkProcessInterface
     {
@@ -163,7 +173,7 @@ namespace CDChunking {
         };
     protected:
         ActionMode _actionMode;
-        std::shared_ptr<ConsolePrinter> _consolePrinter;
+        std::vector<std::shared_ptr<ChunkProcessInterface>> _processors;
 
     public:
         void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
