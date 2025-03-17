@@ -34,6 +34,10 @@ void RTVarRegister() {
             ) {
                 ToolChain::Builder::sourceType =
                     ToolChain::Builder::SourceType::Network;
+                ToolChain::Builder::chunkProcessorActionMode = 
+                    static_cast<CDChunking::MainChunkProcessor::ActionMode>(
+                    ToolChain::Builder::chunkProcessorActionMode &
+                    (~CDChunking::MainChunkProcessor::ActionMode::RecordToDataBase));
             }
             else {
                 std::cout << "There's no SourceType called " << valueStr << "\n";
@@ -154,6 +158,9 @@ void RTVarRegister() {
                 else if (
                     ArgStringHash(subStr) ==
                     ArgStringHash("RecordToDataBase")
+                    && 
+                    ToolChain::Builder::sourceType !=
+                    ToolChain::Builder::SourceType::Network
                 ) {
                     ToolChain::Builder::chunkProcessorActionMode = 
                         static_cast<CDChunking::MainChunkProcessor::ActionMode>(
@@ -162,17 +169,26 @@ void RTVarRegister() {
                 }
                 else if (
                     ArgStringHash(subStr) ==
-                    ArgStringHash("SendToNetwork")
+                    ArgStringHash("CompareWithDataBase")
                 ) {
                     ToolChain::Builder::chunkProcessorActionMode = 
-                    static_cast<CDChunking::MainChunkProcessor::ActionMode>(
+                        static_cast<CDChunking::MainChunkProcessor::ActionMode>(
                         ToolChain::Builder::chunkProcessorActionMode |
-                        CDChunking::MainChunkProcessor::ActionMode::SendToNetwork) ;
+                        CDChunking::MainChunkProcessor::ActionMode::CompareWithDataBase);
                 }
                 else {
                     std::cout << "There's no ActionMode called " << valueStr << "\n";
                 }
-                
+
+                // else if (
+                //     ArgStringHash(subStr) ==
+                //     ArgStringHash("SendToNetwork")
+                // ) {
+                //     ToolChain::Builder::chunkProcessorActionMode = 
+                //     static_cast<CDChunking::MainChunkProcessor::ActionMode>(
+                //         ToolChain::Builder::chunkProcessorActionMode |
+                //         CDChunking::MainChunkProcessor::ActionMode::SendToNetwork) ;
+                // }
                 // else if (
                 //     ArgStringHash(subStr) ==
                 //     ArgStringHash("")
@@ -185,7 +201,7 @@ void RTVarRegister() {
             }
             ;
         },
-        "<Nothing|PrintToConsole|LogToFile|RecordToDataBase|SendToNetwork>",
+        "<Nothing|PrintToConsole|LogToFile|RecordToDataBase|CompareWithDataBase>",
         ""
     );
 }

@@ -158,8 +158,8 @@ namespace CDChunking {
             PrintToConsole      = 1UL << 0,
             LogToFile           = 1UL << 1,
             RecordToDataBase    = 1UL << 2,
-            SendToNetwork       = 1UL << 3,
-            CompareWithDataBase = 1UL << 4,
+            CompareWithDataBase = 1UL << 3,
+            // SendToNetwork       = 1UL << 4,
         };
     protected:
         ActionMode _actionMode;
