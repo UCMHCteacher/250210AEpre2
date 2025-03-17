@@ -173,7 +173,7 @@ namespace CDChunking {
         };
     protected:
         ActionMode _actionMode;
-        std::vector<std::shared_ptr<ChunkProcessInterface>> _processors;
+        std::vector<std::shared_ptr<ChunkProcessInterface> > _processors;
 
     public:
         void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
