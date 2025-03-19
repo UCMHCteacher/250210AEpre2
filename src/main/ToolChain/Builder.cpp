@@ -16,6 +16,9 @@ ToolChain::Builder::networkNum = 0;
 std::unique_ptr<StreamGenerators::StreamGenerator>
 ToolChain::streamGenerator = nullptr;
 
+uint32_t
+ToolChain::fileID_DB = 0;
+
 
 
 ToolChain::Builder::ChunkerType

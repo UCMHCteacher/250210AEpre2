@@ -21,6 +21,8 @@ namespace ToolChain {
     extern std::unique_ptr<CDChunking::Chunker> chunker;
     // TODO: extern chunkProcessor
 
+    extern uint32_t fileID_DB;
+
 
 
 

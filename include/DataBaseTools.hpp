@@ -20,4 +20,19 @@ namespace DataBase {
     extern std::string dbname;
 
     sql::mysql::MySQL_Driver* driver;
+
+
+    namespace QueryStrings {
+        extern std::string getFileID;
+        extern std::string insertFileInfo;
+
+        extern std::string insertChunkInfo;
+        extern std::string getChunkInfoByHashNLength;
+        extern std::string getFileInfoByFileID;
+        // extern std::string ;
+    }
+    namespace QueryStr = QueryStrings;
+
+
+    extern sql::Connection* getConnection();
 } // namespace DataBase

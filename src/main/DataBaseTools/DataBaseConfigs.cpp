@@ -15,3 +15,19 @@ DataBase::password = "w20020315";
 
 std::string 
 DataBase::dbname = "chunk";
+
+
+
+// remember to release the connection it returns
+sql::Connection* 
+DataBase::getConnection() {
+    sql::Connection* con = driver->connect(
+        address,
+        username,
+        password
+    );
+
+    con->setSchema(dbname);
+
+    return con;
+}
