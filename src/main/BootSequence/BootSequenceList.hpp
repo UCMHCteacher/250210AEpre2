@@ -8,5 +8,5 @@ void RTVarRegister();
 
 void NetworkInit();
 
-void DBConnectInit();
+void DBDriverInit();
 // TODO: Boot Tasks

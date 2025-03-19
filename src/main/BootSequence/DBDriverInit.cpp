@@ -3,6 +3,6 @@
 
 
 
-void DBConnectInit() {
+void DBDriverInit() {
     DataBase::driver = sql::mysql::get_mysql_driver_instance();
 }
