@@ -65,7 +65,10 @@ StreamGenerators::FileStreamGenerator::getStream() {
         }
 
 
-
+        delete getFileIDRes;
+        delete getFileIDStmt;
+        delete insertFileInfoStmt;
+        delete con;
     }
 
     _used = true;
