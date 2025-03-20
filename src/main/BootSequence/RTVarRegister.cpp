@@ -134,9 +134,9 @@ void RTVarRegister() {
                 CDChunking::MainChunkProcessor::ActionMode::Nothing;
             
             std::stringstream valueStream(valueStr);
-            std::unique_ptr<char> p_SubStr = std::make_unique<char>(32);
-            while (valueStream.getline(p_SubStr.get(), 31, '|')) {
-                std::string subStr(p_SubStr.get());
+            char* p_SubStr = new char[32];
+            while (valueStream.getline(p_SubStr, 31, ',')) {
+                std::string subStr(p_SubStr);
                 if (
                     ArgStringHash(subStr) ==
                     ArgStringHash("PrintToConsole")
@@ -199,7 +199,8 @@ void RTVarRegister() {
                 //         CDChunking::MainChunkProcessor::ActionMode::);
                 // }
             }
-            ;
+            delete[] p_SubStr;
+            // std::cout << "ActionMode = " << ToolChain::Builder::chunkProcessorActionMode << '\n';
         },
         "<Nothing|PrintToConsole|LogToFile|RecordToDataBase|CompareWithDataBase>",
         ""
