@@ -49,3 +49,11 @@ DB::QueryStr::getFileInfoByFileID =
     "SELECT file_name, file_length "
     "FROM files "
     "WHERE file_id = ?";
+
+
+
+std::string 
+DB::QueryStr::getAllByHashNLength = 
+    "SELECT file_id, file_name, file_length, chunk_id, chunk_begin_pos "
+    "FROM chunks natural join files "
+    "WHERE (chunk_hash, chunk_length) = (?, ?)";

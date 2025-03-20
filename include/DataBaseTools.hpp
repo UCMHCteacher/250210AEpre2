@@ -65,6 +65,17 @@ namespace DataBase {
              * @param file_id(1): uint32_t
              */
             extern std::string getFileInfoByFileID;
+
+            /**
+             * @return [file_id:uint32_t]
+             * @return [file_name:varchar(255)]
+             * @return [file_length:uint64_t]
+             * @return [chunk_id:uint32_t]
+             * @return [chunk_begin_pos:uint64_t]
+             * @param chunk_hash(1): binary(32)
+             * @param chunk_length(2): uint64_t
+             */
+            extern std::string getAllByHashNLength;
         }
 
 
