@@ -16,6 +16,9 @@ DataBase::password = "w20020315";
 std::string 
 DataBase::dbname = "chunk";
 
+sql::mysql::MySQL_Driver* 
+DataBase::driver = nullptr;
+
 
 
 // remember to release the connection it returns
