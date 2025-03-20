@@ -30,15 +30,15 @@ DB::QueryStr::insertFileInfo =
 std::string 
 DB::QueryStr::insertChunkInfo = 
     "INSERT INTO chunks "
-    "(chunk_id, file_id, chunk_hash, chunk_length) "
+    "(chunk_id, file_id, chunk_hash, chunk_begin_pos, chunk_length) "
     "VALUES "
-    "(?, ?, ?, ?)";
+    "(?, ?, ?, ?, ?)";
 
 
 
 std::string 
 DB::QueryStr::getChunkInfoByHashNLength = 
-    "SELECT chunk_id, file_id "
+    "SELECT chunk_id, file_id, chunk_begin_pos "
     "FROM chunks "
     "WHERE (chunk_hash, chunk_length) = (?, ?)";
 

@@ -43,15 +43,17 @@ namespace DataBase {
 
             /**
              * @param chunk_id(1): uint32_t
-             * @param file_id(1): uint32_t
-             * @param chunk_hash(1): binary(32)
-             * @param chunk_length(2): uint64_t
+             * @param file_id(2): uint32_t
+             * @param chunk_hash(3): binary(32)
+             * @param chunk_begin_pos(4): uint64_t
+             * @param chunk_length(5): uint64_t
              */
             extern std::string insertChunkInfo;
 
             /**
              * @return [chunk_id:uint32_t]
              * @return [file_id:uint32_t]
+             * @return [chunk_begin_pos:uint64_t]
              * @param chunk_hash(1): binary(32)
              * @param chunk_length(2): uint64_t
              */
