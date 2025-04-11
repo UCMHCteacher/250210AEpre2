@@ -1,4 +1,4 @@
-set(MySQL_INCLUDE_DIR "C:\\Program Files\\MySQL\\MySQL Connector C++ 9.2\\include")
+set(MySQL_INCLUDE_DIR "C:\\Program Files\\MySQL\\MySQL Connector C++ 9.2\\include\\jdbc")
 set(MySQL_LIB_DIR "C:\\Program Files\\MySQL\\MySQL Connector C++ 9.2\\lib64\\vs14")
 
 
