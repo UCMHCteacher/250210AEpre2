@@ -23,6 +23,10 @@ StreamGenerators::FileStreamGenerator::getStream() {
 
     std::shared_ptr<std::istream> stream = std::make_shared<std::ifstream>(_fileName, std::ios::in | std::ios::binary);
 
+    if (!dynamic_cast<std::ifstream*>(stream.get())->is_open()) {
+        return nullptr;
+    }
+
     /** Query Order: 
      * 1) check whether the file exist or not
      * 2) insert fileinfo (if file not exist)
@@ -72,5 +76,5 @@ StreamGenerators::FileStreamGenerator::getStream() {
     }
 
     _used = true;
-    return stream ? stream : nullptr;
+    return stream;
 }
