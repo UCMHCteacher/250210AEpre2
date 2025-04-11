@@ -48,11 +48,11 @@ void RTVarRegister() {
     );
 
     ArgumentHandler::RTVar::Param::Register(
-        "SourceFileName",
+        "SourceFilePath",
         [](std::string & valueStr) {
-            ToolChain::Builder::sourceFileName = valueStr;
+            ToolChain::Builder::sourceFilePath = valueStr;
         },
-        "<filename(string_with_no_spaces)>",
+        "<filepath(string_with_no_spaces)>",
         ""
     );
 

@@ -8,7 +8,9 @@ ToolChain::Builder::SourceType
 ToolChain::Builder::sourceType = ToolChain::Builder::SourceType::File;
 
 std::string
-ToolChain::Builder::sourceFileName = "111.txt";
+ToolChain::Builder::sourceFilePath = "111.txt";
+std::string
+ToolChain::Builder::sourceFileName = "";
 
 uint16_t
 ToolChain::Builder::networkNum = 0;
@@ -30,7 +32,7 @@ ToolChain::chunker = nullptr;
 uint8_t 
 ToolChain::Builder::chunkerIntervalLength = 1;
 uint16_t 
-ToolChain::Builder::chunkerWindowWidth = 256;
+ToolChain::Builder::chunkerWindowWidth = 100;
 
 uint8_t 
 ToolChain::Builder::chunkerThreadnum = 2;
@@ -53,8 +55,8 @@ ToolChain::Builder::Build() {
     switch (sourceType) 
     {
     case SourceType::File:
-        streamGenerator = std::make_unique<StreamGenerators::FileStreamGenerator>(sourceFileName);
-        std::cout << "Opening file: " << sourceFileName << '\n';
+        streamGenerator = std::make_unique<StreamGenerators::FileStreamGenerator>(sourceFilePath);
+        std::cout << "Opening file: " << sourceFilePath << '\n';
         break;
     case SourceType::Network:
         streamGenerator = std::make_unique<StreamGenerators::NetworkStreamGenerator>(networkNum);

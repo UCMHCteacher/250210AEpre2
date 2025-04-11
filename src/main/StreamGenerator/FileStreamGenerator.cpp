@@ -1,3 +1,5 @@
+#include<filesystem>
+
 #include"StreamGenerator.hpp"
 #include"ToolChain.hpp"
 #include"DataBaseTools.hpp"
@@ -8,8 +10,8 @@
 
 
 
-StreamGenerators::FileStreamGenerator::FileStreamGenerator(std::string fileName) :
-    _fileName(fileName),
+StreamGenerators::FileStreamGenerator::FileStreamGenerator(std::string filePath) :
+    _filePath(filePath),
     _used(false)
 {}
 
@@ -21,11 +23,18 @@ std::shared_ptr<std::istream>
 StreamGenerators::FileStreamGenerator::getStream() {
     if (_used) return nullptr;
 
-    std::shared_ptr<std::istream> stream = std::make_shared<std::ifstream>(_fileName, std::ios::in | std::ios::binary);
+    std::shared_ptr<std::istream> stream = std::make_shared<std::ifstream>(_filePath, std::ios::in | std::ios::binary);
 
     if (!dynamic_cast<std::ifstream*>(stream.get())->is_open()) {
+        std::lock_guard lk(ToolChain::_coutMutex);
+        std::cout << "File \"" << _filePath << "\" cannot open!\n";
         return nullptr;
     }
+
+
+    std::filesystem::path filePathObj(_filePath);
+    ToolChain::Builder::sourceFileName = filePathObj.filename().generic_string();
+    uint64_t fileLength = std::filesystem::file_size(filePathObj);
 
     /** Query Order: 
      * 1) check whether the file exist or not
@@ -33,15 +42,13 @@ StreamGenerators::FileStreamGenerator::getStream() {
      * 3) get file_id
     */
     if (ToolChain::Builder::chunkProcessorActionMode & CDChunking::MainChunkProcessor::ActionMode::RecordToDataBase) {
-        uint64_t fileLength = stream->rdbuf()->pubseekoff(0, std::ios::end, std::ios::in);
-        stream->rdbuf()->pubseekpos(std::ios::beg, std::ios::in);
 
         sql::Connection *  con = DB::getConnection();
 
         // 1)
         sql::PreparedStatement *  getFileIDStmt = con->prepareStatement(DB::QueryStr::getFileIDByNameNLength);
         sql::ResultSet *  getFileIDRes = nullptr;
-        getFileIDStmt->setString(1, _fileName);
+        getFileIDStmt->setString(1, ToolChain::Builder::sourceFileName);
         getFileIDStmt->setUInt64(2, fileLength);
 
         getFileIDRes = getFileIDStmt->executeQuery();
@@ -54,7 +61,7 @@ StreamGenerators::FileStreamGenerator::getStream() {
 
         // 2)
         sql::PreparedStatement *  insertFileInfoStmt = con->prepareStatement(DB::QueryStr::insertFileInfo);
-        insertFileInfoStmt->setString(1, _fileName);
+        insertFileInfoStmt->setString(1, ToolChain::Builder::sourceFileName);
         insertFileInfoStmt->setUInt64(2, fileLength);
 
         insertFileInfoStmt->executeUpdate();

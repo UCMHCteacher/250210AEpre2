@@ -29,9 +29,9 @@ namespace StreamGenerators
         bool _used;
 
     protected:
-        std::string _fileName;
+        std::string _filePath;
     public:
-        FileStreamGenerator(std::string fileName);
+        FileStreamGenerator(std::string filePath);
         virtual ~FileStreamGenerator();
     };
 
