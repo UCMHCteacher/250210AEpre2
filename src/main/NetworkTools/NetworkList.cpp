@@ -14,13 +14,10 @@ NetworkNode::NetworkNode() {
 	networkMask.S_un.S_addr=0;
 
 	deviceIPAddr.S_un.S_addr=0;
-	memset(deviceMACAddr, 0, MACAddrLen);
 
 	deviceName=nullptr;
 	deviceDescription=nullptr;
 
-	// open=false;
-	deviceHandle=nullptr;
 }
 
 NetworkNode::NetworkNode(const NetworkNode& rNode) {
@@ -28,15 +25,11 @@ NetworkNode::NetworkNode(const NetworkNode& rNode) {
 	networkMask.S_un.S_addr = rNode.networkMask.S_un.S_addr;
 
 	deviceIPAddr.S_un.S_addr = rNode.deviceIPAddr.S_un.S_addr;
-	memcpy(deviceMACAddr, rNode.deviceMACAddr, MACAddrLen);
 
 	deviceName = new char[strlen(rNode.deviceName) + 1];
 		strcpy(deviceName, rNode.deviceName);
 	deviceDescription = new char[strlen(rNode.deviceDescription) + 1];
 		strcpy(deviceDescription, rNode.deviceDescription);
-
-	// open = rNode.open;
-	deviceHandle = rNode.deviceHandle;
 }
 
 
@@ -73,7 +66,6 @@ bool getNetworkList(NetworkList& networkList, std::string& errorbuf) {
 		for (auto deviceAddr = device->addresses; deviceAddr; deviceAddr = deviceAddr->next) {
 			if (deviceAddr->addr->sa_family == AF_INET) {
 				NetworkNode networktoWrite;
-					// networktoWrite.open = false;
 
 					networktoWrite.deviceIPAddr = ((sockaddr_in*)(deviceAddr->addr))->sin_addr;
 
@@ -86,15 +78,6 @@ bool getNetworkList(NetworkList& networkList, std::string& errorbuf) {
 						strcpy(networktoWrite.deviceName, device->name);
 					networktoWrite.deviceDescription=new char[strlen(device->description) + 1];
 						strcpy(networktoWrite.deviceDescription, device->description);
-					networktoWrite.deviceHandle = nullptr;
-					std::string getMACErrorBuf;
-					if (!getMacFromPcapDeviceName(
-						device->name,
-						networktoWrite.deviceMACAddr,
-						getMACErrorBuf)) {
-						std::cout << "Error occured in getting mac address of network \"" << inet_ntoa(networktoWrite.networkAddr) << "\".\n"
-							<< "Error: " << getMACErrorBuf << "\n\n";
-					}
 
 
 					networkList.push_back(networktoWrite);
@@ -113,5 +96,23 @@ bool getNetworkList(NetworkList& networkList, std::string& errorbuf) {
 
 
 
+extern std::string Indents(uint32_t count);
+void PrintNetworkList(int indentCount) {
+    std::cout << Indents(indentCount) << "NetworkList: {\n";
+    
+    
+    for (int i = 0; i < networkList.size(); i++) {
+        NetworkNode const & network = networkList[i];
+        std::cout 
+            << Indents(indentCount+1) << "Network" << i << ": {\n"
+            << Indents(indentCount+2) << "Network Address: \"" << inet_ntoa(network.networkAddr) << "\"\n"
+            << Indents(indentCount+2) << "Network Mask: \"" << inet_ntoa(network.networkMask) << "\"\n"
+            << Indents(indentCount+2) << "Device IP Address: \"" << inet_ntoa(network.deviceIPAddr) << "\"\n"
+            << Indents(indentCount+2) << "Device Name: \"" << network.deviceName << "\"\n"
+            << Indents(indentCount+2) << "Device Description: \"" << network.deviceDescription << "\"\n"
+            << Indents(indentCount+1) << "},\n";
+    }
 
-
+    std::cout << Indents(indentCount) << "}\n";
+	std::cout << Indents(indentCount) << "There are " << networkList.size() << " networks in total.\n\n\n";
+}

@@ -25,26 +25,6 @@ void PrintAllHelpMessages() {
 
 
 
-void PrintNetworkList(int indentCount) {
-    std::cout << Indents(indentCount) << "NetworkList: {\n";
-    
-    
-    for (int i = 0; i < networkList.size(); i++) {
-        NetworkNode const & network = networkList[i];
-        std::cout 
-            << Indents(indentCount+1) << "Network" << i << ": {\n"
-            << Indents(indentCount+2) << "Network Address: \"" << inet_ntoa(network.networkAddr) << "\"\n"
-            << Indents(indentCount+2) << "Network Mask: \"" << inet_ntoa(network.networkMask) << "\"\n"
-            << Indents(indentCount+2) << "Device IP Address: \"" << inet_ntoa(network.deviceIPAddr) << "\"\n"
-            << Indents(indentCount+2) << "Device MAC Address: \"" << macAddrtoString(network.deviceMACAddr) << "\"\n"
-            << Indents(indentCount+2) << "Device Name: \"" << network.deviceName << "\"\n"
-            << Indents(indentCount+2) << "Device Description: \"" << network.deviceDescription << "\"\n"
-            << Indents(indentCount+1) << "},\n";
-    }
-
-    std::cout << Indents(indentCount) << "}\n";
-	std::cout << Indents(indentCount) << "There are " << networkList.size() << " networks in total.\n\n\n";
-}
 
 
 
