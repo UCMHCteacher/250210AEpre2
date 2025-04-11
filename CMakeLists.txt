@@ -31,28 +31,50 @@ list(APPEND
 
 
 
-include(Configs.cmake)
+include(ImportPaths.cmake)
 
-find_library(MySQL_LIB mysqlcppconn.lib PATHS ${MySQL_LIB_DIR})
-find_library(OpenSSL_SSL_LIB libssl.lib PATHS ${MySQL_LIB_DIR})
-find_library(OpenSSL_CRYPTO_LIB libcrypto.lib PATHS ${MySQL_LIB_DIR})
-find_library(Packet_LIB Packet.lib PATHS ${Npcap_LIB_DIR})
-find_library(wpcap_LIB wpcap.lib PATHS ${Npcap_LIB_DIR})
+find_library(MySQL_LIB          mysqlcppconn    PATHS ${MySQL_LIB_DIR})
 list(APPEND
     ALL_LIB_FILES
     ${MySQL_LIB}
-    ${Packet_LIB}
-    ${wpcap_LIB}
-    ${OpenSSL_SSL_LIB}
-    ${OpenSSL_CRYPTO_LIB}
-    ws2_32.lib
 )
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    find_library(Packet_LIB Packet  PATHS ${pcap_LIB_DIR})
+    find_library(wpcap_LIB  wpcap   PATHS ${pcap_LIB_DIR})
+
+    find_library(OpenSSL_SSL_LIB    libssl      PATHS ${OpenSSL_LIB_DIR})
+    find_library(OpenSSL_CRYPTO_LIB libcrypto   PATHS ${OpenSSL_LIB_DIR})
+
+    list(APPEND
+        ALL_LIB_FILES
+        ${Packet_LIB}
+        ${wpcap_LIB}
+        ${OpenSSL_SSL_LIB}
+        ${OpenSSL_CRYPTO_LIB}
+        ws2_32.lib
+    )
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_library(pcap_LIB   pcap    PATHS ${pcap_LIB_DIR})
+
+    find_library(OpenSSL_SSL_LIB    ssl     PATHS ${OpenSSL_LIB_DIR})
+    find_library(OpenSSL_CRYPTO_LIB crypto  PATHS ${OpenSSL_LIB_DIR})
+    list(APPEND
+        ALL_LIB_FILES
+        ${pcap_LIB}
+        ${OpenSSL_SSL_LIB}
+        ${OpenSSL_CRYPTO_LIB}
+    )
+endif()
+
+
+
 
 
 list(APPEND
     ALL_INCLUDE_DIRS
     ${MySQL_INCLUDE_DIR}
-    ${Npcap_INCLUDE_DIR}
+    ${pcap_INCLUDE_DIR}
     ${OpenSSL_INCLUDE_DIR}
 )
 
