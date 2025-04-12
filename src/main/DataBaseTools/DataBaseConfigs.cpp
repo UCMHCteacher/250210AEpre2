@@ -11,7 +11,7 @@ std::string
 DataBase::username = "root";
 
 std::string 
-DataBase::password = "w20020315";
+DataBase::password = "";
 
 std::string 
 DataBase::dbname = "chunk";

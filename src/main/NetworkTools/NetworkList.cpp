@@ -1,6 +1,5 @@
 #include"NetworkTools.hpp"
 
-#include<cstring>
 
 
 
@@ -83,8 +82,10 @@ bool getNetworkList(NetworkList& networkList, std::string& errorbuf) {
 						networktoWrite.networkMask.s_addr;
 #endif
 
-					networktoWrite.deviceName = std::string(device->name);
-					networktoWrite.deviceDescription = std::string(device->description);
+					if (device->name != nullptr)
+						networktoWrite.deviceName = std::string(device->name);
+					if (device->description != nullptr)
+						networktoWrite.deviceDescription = std::string(device->description);
 
 					networkList.push_back(networktoWrite);
 			}

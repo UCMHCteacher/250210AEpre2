@@ -24,7 +24,7 @@ StreamGenerators::NetworkStreamGenerator::NetworkStreamGenerator(uint16_t networ
 
     char errBuf[PCAP_ERRBUF_SIZE];
 
-    _deviceHandle = pcap_create(networkList[networkNum].deviceName, errBuf);
+    _deviceHandle = pcap_create(networkList[networkNum].deviceName.c_str(), errBuf);
 
 
     if (_deviceHandle == nullptr) {
