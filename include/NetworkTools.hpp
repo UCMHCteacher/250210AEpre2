@@ -8,7 +8,9 @@
 #include<pcap.h>
 
 
-
+#ifdef __linux__
+#include<arpa/inet.h>
+#endif
 
 
 
@@ -26,8 +28,8 @@ typedef struct NetworkNode {
 
 	in_addr deviceIPAddr;
 
-	char* deviceName;
-	char* deviceDescription;
+	std::string deviceName;
+	std::string deviceDescription;
 
 
 	NetworkNode();

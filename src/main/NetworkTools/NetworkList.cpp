@@ -1,5 +1,7 @@
 #include"NetworkTools.hpp"
 
+#include<cstring>
+
 
 
 
@@ -9,27 +11,28 @@ NetworkList networkList;
 
 
 
-NetworkNode::NetworkNode() {
+NetworkNode::NetworkNode() :
+	deviceName{},
+	deviceDescription{}
+{
+#ifdef _WIN32
 	networkAddr.S_un.S_addr=0;
 	networkMask.S_un.S_addr=0;
-
 	deviceIPAddr.S_un.S_addr=0;
-
-	deviceName=nullptr;
-	deviceDescription=nullptr;
-
+#elif __linux__
+	networkAddr.s_addr = 0;
+	networkMask.s_addr = 0;
+	deviceIPAddr.s_addr = 0;
+#endif
 }
 
 NetworkNode::NetworkNode(const NetworkNode& rNode) {
-	networkAddr.S_un.S_addr = rNode.networkAddr.S_un.S_addr;
-	networkMask.S_un.S_addr = rNode.networkMask.S_un.S_addr;
+	networkAddr = rNode.networkAddr;
+	networkMask = rNode.networkMask;
+	deviceIPAddr = rNode.deviceIPAddr;
 
-	deviceIPAddr.S_un.S_addr = rNode.deviceIPAddr.S_un.S_addr;
-
-	deviceName = new char[strlen(rNode.deviceName) + 1];
-		strcpy(deviceName, rNode.deviceName);
-	deviceDescription = new char[strlen(rNode.deviceDescription) + 1];
-		strcpy(deviceDescription, rNode.deviceDescription);
+	deviceName = rNode.deviceName;
+	deviceDescription = rNode.deviceDescription;
 }
 
 
@@ -68,17 +71,20 @@ bool getNetworkList(NetworkList& networkList, std::string& errorbuf) {
 				NetworkNode networktoWrite;
 
 					networktoWrite.deviceIPAddr = ((sockaddr_in*)(deviceAddr->addr))->sin_addr;
-
 					networktoWrite.networkMask = ((sockaddr_in*)(deviceAddr->netmask))->sin_addr;
+
+#ifdef _WIN32
 					networktoWrite.networkAddr.S_un.S_addr =
 						networktoWrite.deviceIPAddr.S_un.S_addr &
 						networktoWrite.networkMask.S_un.S_addr;
+#elif __linux__
+					networktoWrite.networkAddr.s_addr =
+						networktoWrite.deviceIPAddr.s_addr &
+						networktoWrite.networkMask.s_addr;
+#endif
 
-					networktoWrite.deviceName = new char[strlen(device->name)+1];
-						strcpy(networktoWrite.deviceName, device->name);
-					networktoWrite.deviceDescription=new char[strlen(device->description) + 1];
-						strcpy(networktoWrite.deviceDescription, device->description);
-
+					networktoWrite.deviceName = std::string(device->name);
+					networktoWrite.deviceDescription = std::string(device->description);
 
 					networkList.push_back(networktoWrite);
 			}
