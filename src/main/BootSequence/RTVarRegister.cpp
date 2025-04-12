@@ -1,6 +1,7 @@
 #include"BootSequenceList.hpp"
 #include"ArgumentHandler.hpp"
 #include"ToolChain.hpp"
+#include"DataBaseTools.hpp"
 
 #include<sstream>
 
@@ -18,6 +19,7 @@ void RTVarRegister() {
     //     "Just A Test"
     // );
 
+    // ToolChain Part
     ArgumentHandler::RTVar::Param::Register(
         "SourceType",
         [](std::string & valueStr) {
@@ -203,6 +205,42 @@ void RTVarRegister() {
             // std::cout << "ActionMode = " << ToolChain::Builder::chunkProcessorActionMode << '\n';
         },
         "<Nothing|PrintToConsole|LogToFile|RecordToDataBase|CompareWithDataBase>",
+        ""
+    );
+
+
+
+    // Database Part
+    ArgumentHandler::RTVar::Param::Register(
+        "DBAddress",
+        [](std::string & valueStr) {
+            DataBase::address = std::string("tcp://") + valueStr;
+        },
+        "<ip>:<port>",
+        ""
+    );
+    ArgumentHandler::RTVar::Param::Register(
+        "DBUserName",
+        [](std::string & valueStr) {
+            DataBase::username = valueStr;
+        },
+        "<String>",
+        ""
+    );
+    ArgumentHandler::RTVar::Param::Register(
+        "DBPassword",
+        [](std::string & valueStr) {
+            DataBase::password = valueStr;
+        },
+        "<String>",
+        ""
+    );
+    ArgumentHandler::RTVar::Param::Register(
+        "DBName",
+        [](std::string & valueStr) {
+            DataBase::dbname = valueStr;
+        },
+        "<String>",
         ""
     );
 }
