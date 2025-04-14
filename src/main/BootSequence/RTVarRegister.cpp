@@ -20,6 +20,7 @@ void RTVarRegister() {
     // );
 
     // ToolChain Part
+    // 1.SourceGen
     ArgumentHandler::RTVar::Param::Register(
         "SourceType",
         [](std::string & valueStr) {
@@ -68,6 +69,7 @@ void RTVarRegister() {
         ""
     );
 
+    // 2.Chunker
     ArgumentHandler::RTVar::Param::Register(
         "ChunkerType",
         [](std::string & valueStr) {
@@ -129,6 +131,8 @@ void RTVarRegister() {
         "<uint8>",
         ""
     );
+
+    // 3.ChunkProcessor
     ArgumentHandler::RTVar::Param::Register(
         "ChunkProcessorActionMode",
         [](std::string & valueStr) {
@@ -205,6 +209,20 @@ void RTVarRegister() {
             // std::cout << "ActionMode = " << ToolChain::Builder::chunkProcessorActionMode << '\n';
         },
         "<Nothing|PrintToConsole|LogToFile|RecordToDataBase|CompareWithDataBase>",
+        ""
+    );
+    ArgumentHandler::RTVar::Param::Register(
+        "ChunkProcessThreadnum",
+        [](std::string & valueStr) {
+            int value = atoi(valueStr.c_str());
+            if (value == 0) {
+                std::cout << "ChunkProcessThreadnum cannot be 0 or not number.\n";
+                return;
+            }
+
+            ToolChain::Builder::chunkProcessThreadNum = value;
+        },
+        "<uint8>",
         ""
     );
 
