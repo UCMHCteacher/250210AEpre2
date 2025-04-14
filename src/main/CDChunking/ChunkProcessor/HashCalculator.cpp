@@ -7,7 +7,11 @@
 
 CDChunking::HashCalculator::HashCalculator(std::string const &  algoType) {
     _ctx = EVP_MD_CTX_new();
+#if OPENSSL_API_LEVEL >= 30000
     _mdAlgo = EVP_MD_fetch(nullptr, algoType.c_str(), nullptr);
+#else
+    _mdAlgo = const_cast<EVP_MD*>(EVP_sha256());
+#endif
     _usable = true;
     if ((_ctx == nullptr) || (_mdAlgo == nullptr)) {
         std::lock_guard lk(ToolChain::_coutMutex);
@@ -22,7 +26,9 @@ CDChunking::HashCalculator::HashCalculator() :
 
 
 CDChunking::HashCalculator::~HashCalculator() {
+#if OPENSSL_API_LEVEL >= 30000
     EVP_MD_free(_mdAlgo);
+#endif
     EVP_MD_CTX_free(_ctx);
 }
 
@@ -49,7 +55,13 @@ CDChunking::HashCalculator::operator() (std::shared_ptr<ChunkPackage> chunkPacka
 
 
     uint32_t len = 0;
-    uint8_t *  output = static_cast<uint8_t*>(OPENSSL_malloc(EVP_MD_get_size(_mdAlgo)));
+    uint8_t *  output = static_cast<uint8_t*>(OPENSSL_malloc(
+#if OPENSSL_API_LEVEL >= 30000
+        EVP_MD_get_size(_mdAlgo)
+#else
+        EVP_MD_size(_mdAlgo)
+#endif
+    ));
     if (!EVP_DigestFinal_ex(_ctx, output, &len)) {
         std::lock_guard lk(ToolChain::_coutMutex);
         std::cout << "Hash calculate Failed.\n";
