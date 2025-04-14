@@ -46,24 +46,30 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     find_library(OpenSSL_SSL_LIB    libssl      PATHS ${OpenSSL_LIB_DIR})
     find_library(OpenSSL_CRYPTO_LIB libcrypto   PATHS ${OpenSSL_LIB_DIR})
 
+    find_library(WinSock_LIB ws2_32)
+
     list(APPEND
         ALL_LIB_FILES
         ${Packet_LIB}
         ${wpcap_LIB}
         ${OpenSSL_SSL_LIB}
         ${OpenSSL_CRYPTO_LIB}
-        ws2_32.lib
+        ${WinSock_LIB}
     )
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     find_library(pcap_LIB   pcap    PATHS ${pcap_LIB_DIR})
 
     find_library(OpenSSL_SSL_LIB    ssl     PATHS ${OpenSSL_LIB_DIR})
     find_library(OpenSSL_CRYPTO_LIB crypto  PATHS ${OpenSSL_LIB_DIR})
+
+    find_library(pthread_LIB pthread)
+
     list(APPEND
         ALL_LIB_FILES
         ${pcap_LIB}
         ${OpenSSL_SSL_LIB}
         ${OpenSSL_CRYPTO_LIB}
+        ${pthread_LIB}
     )
 endif()
 
@@ -90,3 +96,6 @@ add_executable(${PROJECT_NAME} ${ALL_SRC_FILES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${ALL_LIB_FILES})
 include_directories(${ALL_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PRIVATE "BPF_MAJOR_VERSION")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-pthread")
+endif()
