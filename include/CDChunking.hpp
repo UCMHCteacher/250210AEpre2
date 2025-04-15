@@ -139,6 +139,15 @@ namespace CDChunking {
 
 
 
+    struct ChunkFileGenerator :
+        public ChunkProcessInterface
+    {
+    public:
+        virtual void operator() (std::shared_ptr<ChunkPackage> chunkPackage) override;
+    };
+
+
+
     struct DatabaseRecorder :
         public ChunkProcessInterface
     {

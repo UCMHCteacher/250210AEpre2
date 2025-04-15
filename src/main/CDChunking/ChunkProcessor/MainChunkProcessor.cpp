@@ -20,6 +20,12 @@ MainChunkProcessor::MainChunkProcessor(ActionMode actionMode) :
     if (actionMode & ActionMode::CompareWithDataBase) {
         _processors.push_back(std::make_shared<DatabaseComparer>());
     }
+    // if (actionMode & ActionMode::SendToNetwork) {
+    //     _processors.push_back(std::make_shared<NetworkSender>());
+    // }
+    if (actionMode & ActionMode::GenerateChunkFile) {
+        _processors.push_back(std::make_shared<ChunkFileGenerator>());
+    }
 }
 
 void 
