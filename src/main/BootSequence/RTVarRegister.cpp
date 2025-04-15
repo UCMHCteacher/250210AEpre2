@@ -7,16 +7,17 @@
 
 
 using namespace ArgumentHandler;
+// using namespace ToolChain::Builder;
 
 
 void RTVarRegister() {
     // ArgumentHandler::RTVar::Param::Register(
-    //     "Test",
+    //     "Dummy",
     //     [](std::string & valueStr) {
     //         std::cout << valueStr << '\n';
     //     },
     //     "<String>",
-    //     "Just A Test"
+    //     "Just A Dummy"
     // );
 
     // ToolChain Part
@@ -37,17 +38,13 @@ void RTVarRegister() {
             ) {
                 ToolChain::Builder::sourceType =
                     ToolChain::Builder::SourceType::Network;
-                ToolChain::Builder::chunkProcessorActionMode = 
-                    static_cast<CDChunking::MainChunkProcessor::ActionMode>(
-                    ToolChain::Builder::chunkProcessorActionMode &
-                    (~CDChunking::MainChunkProcessor::ActionMode::RecordToDataBase));
             }
             else {
                 std::cout << "There's no SourceType called " << valueStr << "\n";
             }
         },
         "<File|Network>",
-        "Contorls Data Source Type"
+        "Controls Data Source Type"
     );
 
     ArgumentHandler::RTVar::Param::Register(
@@ -65,9 +62,12 @@ void RTVarRegister() {
             ToolChain::Builder::networkNum =
                 atoi(valueStr.c_str());
         },
-        "<networkNum(int)>",
-        ""
+        "<NetworkNum(int)>",
+        "NetworkNum is defined by the output of -help=Network"
     );
+
+
+
 
     // 2.Chunker
     ArgumentHandler::RTVar::Param::Register(
@@ -80,6 +80,13 @@ void RTVarRegister() {
                 ToolChain::Builder::chunkerType =
                     ToolChain::Builder::ChunkerType::AE;
             }
+            // else if (
+            //     ArgStringHash(valueStr) ==
+            //     ArgStringHash("MaxP")
+            // ) {
+            //     ToolChain::Builder::chunkerType =
+            //         ToolChain::Builder::ChunkerType::MaxP;
+            // }
             else {
                 std::cout << "There's no ChunkerType called " << valueStr << "\n";
             }
@@ -88,20 +95,19 @@ void RTVarRegister() {
         ""
     );
 
-    ArgumentHandler::RTVar::Param::Register(
-        "ChunkerIntervalLength",
-        [](std::string & valueStr) {
-            int value = atoi(valueStr.c_str());
-            if (value == 0) {
-                std::cout << "ChunkIntervalLength cannot be 0 or not number.\n";
-                return;
-            }
-
-            ToolChain::Builder::chunkerIntervalLength = value;
-        },
-        "<uint8>",
-        "Still not functioning now :("
-    );
+    // ArgumentHandler::RTVar::Param::Register(
+    //     "ChunkerIntervalLength",
+    //     [](std::string & valueStr) {
+    //         int value = atoi(valueStr.c_str());
+    //         if (value == 0) {
+    //             std::cout << "ChunkIntervalLength cannot be 0 or not number.\n";
+    //             return;
+    //         }
+    //         ToolChain::Builder::chunkerIntervalLength = value;
+    //     },
+    //     "<uint8>",
+    //     "Still not functioning now :("
+    // );
 
     ArgumentHandler::RTVar::Param::Register(
         "ChunkerWindowWidth",
@@ -111,12 +117,12 @@ void RTVarRegister() {
                 std::cout << "ChunkerWindowWidth cannot be 0 or not number.\n";
                 return;
             }
-
             ToolChain::Builder::chunkerWindowWidth = value;
         },
         "<uint16>",
         ""
     );
+
     ArgumentHandler::RTVar::Param::Register(
         "ChunkerThreadnum",
         [](std::string & valueStr) {
@@ -125,12 +131,14 @@ void RTVarRegister() {
                 std::cout << "ChunkerThreadnum cannot be 0 or not number.\n";
                 return;
             }
-
             ToolChain::Builder::chunkerThreadnum = value;
         },
         "<uint8>",
         ""
     );
+
+
+
 
     // 3.ChunkProcessor
     ArgumentHandler::RTVar::Param::Register(
@@ -152,21 +160,18 @@ void RTVarRegister() {
                         ToolChain::Builder::chunkProcessorActionMode |
                         CDChunking::MainChunkProcessor::ActionMode::PrintToConsole);
                 }
-                else if (
-                    ArgStringHash(subStr) ==
-                    ArgStringHash("LogToFile")
-                ) {
-                    ToolChain::Builder::chunkProcessorActionMode = 
-                        static_cast<CDChunking::MainChunkProcessor::ActionMode>(
-                        ToolChain::Builder::chunkProcessorActionMode |
-                        CDChunking::MainChunkProcessor::ActionMode::LogToFile);
-                }
+                // else if (
+                //     ArgStringHash(subStr) ==
+                //     ArgStringHash("LogToFile")
+                // ) {
+                //     ToolChain::Builder::chunkProcessorActionMode = 
+                //         static_cast<CDChunking::MainChunkProcessor::ActionMode>(
+                //         ToolChain::Builder::chunkProcessorActionMode |
+                //         CDChunking::MainChunkProcessor::ActionMode::LogToFile);
+                // }
                 else if (
                     ArgStringHash(subStr) ==
                     ArgStringHash("RecordToDataBase")
-                    && 
-                    ToolChain::Builder::sourceType !=
-                    ToolChain::Builder::SourceType::Network
                 ) {
                     ToolChain::Builder::chunkProcessorActionMode = 
                         static_cast<CDChunking::MainChunkProcessor::ActionMode>(
@@ -182,10 +187,6 @@ void RTVarRegister() {
                         ToolChain::Builder::chunkProcessorActionMode |
                         CDChunking::MainChunkProcessor::ActionMode::CompareWithDataBase);
                 }
-                else {
-                    std::cout << "There's no ActionMode called " << valueStr << "\n";
-                }
-
                 // else if (
                 //     ArgStringHash(subStr) ==
                 //     ArgStringHash("SendToNetwork")
@@ -195,6 +196,15 @@ void RTVarRegister() {
                 //         ToolChain::Builder::chunkProcessorActionMode |
                 //         CDChunking::MainChunkProcessor::ActionMode::SendToNetwork) ;
                 // }
+                else if (
+                    ArgStringHash(subStr) ==
+                    ArgStringHash("GenerateChunkFile")
+                ) {
+                    ToolChain::Builder::chunkProcessorActionMode = 
+                        static_cast<CDChunking::MainChunkProcessor::ActionMode>(
+                        ToolChain::Builder::chunkProcessorActionMode |
+                        CDChunking::MainChunkProcessor::ActionMode::GenerateChunkFile);
+                }
                 // else if (
                 //     ArgStringHash(subStr) ==
                 //     ArgStringHash("")
@@ -204,13 +214,17 @@ void RTVarRegister() {
                 //         ToolChain::Builder::chunkProcessorActionMode |
                 //         CDChunking::MainChunkProcessor::ActionMode::);
                 // }
+                else {
+                    std::cout << "There's no ActionMode called " << valueStr << "\n";
+                }
             }
             delete[] p_SubStr;
             // std::cout << "ActionMode = " << ToolChain::Builder::chunkProcessorActionMode << '\n';
         },
-        "<Nothing|PrintToConsole|LogToFile|RecordToDataBase|CompareWithDataBase>",
-        ""
+        "<Nothing|PrintToConsole|RecordToDataBase|CompareWithDataBase|GenerateChunkFile>",
+        "Note that if SourceType=Network, RecordToDataBase & GenerateChunkFile will be disabled."
     );
+
     ArgumentHandler::RTVar::Param::Register(
         "ChunkProcessThreadnum",
         [](std::string & valueStr) {
@@ -228,6 +242,11 @@ void RTVarRegister() {
 
 
 
+
+
+
+
+
     // Database Part
     ArgumentHandler::RTVar::Param::Register(
         "DBAddress",
@@ -237,6 +256,7 @@ void RTVarRegister() {
         "<ip>:<port>",
         ""
     );
+
     ArgumentHandler::RTVar::Param::Register(
         "DBUserName",
         [](std::string & valueStr) {
@@ -245,6 +265,7 @@ void RTVarRegister() {
         "<String>",
         ""
     );
+
     ArgumentHandler::RTVar::Param::Register(
         "DBPassword",
         [](std::string & valueStr) {
@@ -253,6 +274,7 @@ void RTVarRegister() {
         "<String>",
         ""
     );
+
     ArgumentHandler::RTVar::Param::Register(
         "DBName",
         [](std::string & valueStr) {

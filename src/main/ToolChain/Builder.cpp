@@ -32,7 +32,7 @@ ToolChain::chunker = nullptr;
 uint8_t 
 ToolChain::Builder::chunkerIntervalLength = 1;
 uint16_t 
-ToolChain::Builder::chunkerWindowWidth = 100;
+ToolChain::Builder::chunkerWindowWidth = 128;
 
 uint8_t 
 ToolChain::Builder::chunkerThreadnum = 2;
@@ -61,6 +61,13 @@ ToolChain::Builder::Build() {
     case SourceType::Network:
         streamGenerator = std::make_unique<StreamGenerators::NetworkStreamGenerator>(networkNum);
         std::cout << "Using Network " << networkNum << '\n';
+
+        chunkProcessorActionMode = 
+            static_cast<CDChunking::MainChunkProcessor::ActionMode>(
+                chunkProcessorActionMode &
+                (~CDChunking::MainChunkProcessor::ActionMode::RecordToDataBase) &
+                (~CDChunking::MainChunkProcessor::ActionMode::GenerateChunkFile)
+            );
         break;
     default:
         // exit(0); // TODO: graceful exit

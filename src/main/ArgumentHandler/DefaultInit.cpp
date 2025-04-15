@@ -82,7 +82,7 @@ CtrlFlag::Param::ListInit() {
         [](std::string & valueStr){
             if (
                 ArgStringHash(valueStr) ==
-                ArgStringHash("network")
+                ArgStringHash("Network")
             ) {
                 PrintNetworkList(0);
             }
@@ -106,7 +106,7 @@ CtrlFlag::Param::ListInit() {
             }
             std::exit(0);
         },
-        "<network|RTVarParam|CtrlFlagParam>",
+        "<Network|RTVarParam|CtrlFlagParam>",
         "Print help messages"
     );// TODO: help messages with hint word
 

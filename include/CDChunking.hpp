@@ -166,10 +166,11 @@ namespace CDChunking {
         enum ActionMode : uint32_t {
             Nothing             = 0,
             PrintToConsole      = 1UL << 0,
-            LogToFile           = 1UL << 1,
+            // LogToFile           = 1UL << 1,
             RecordToDataBase    = 1UL << 2,
             CompareWithDataBase = 1UL << 3,
             // SendToNetwork       = 1UL << 4,
+            GenerateChunkFile   = 1UL << 5,
         };
     protected:
         ActionMode _actionMode;
