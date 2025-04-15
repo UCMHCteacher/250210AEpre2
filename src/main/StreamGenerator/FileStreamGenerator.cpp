@@ -1,4 +1,5 @@
 #include<filesystem>
+#include<sstream>
 
 #include"StreamGenerator.hpp"
 #include"ToolChain.hpp"
@@ -81,6 +82,30 @@ StreamGenerators::FileStreamGenerator::getStream() {
         delete insertFileInfoStmt;
         delete con;
     }
+
+
+
+    // Chunk Data will be put into "./ChunkData/<sourceFileName>/<ChunkerType>_<chunkerWindowWidth>/"
+    // the following steps will form this directory if it doesn't exist.
+    if (ToolChain::Builder::chunkProcessorActionMode & CDChunking::MainChunkProcessor::ActionMode::GenerateChunkFile) {
+        namespace stdfs = std::filesystem;
+        using namespace ToolChain::Builder;
+
+        // forming paths
+        chunkDataDir = "./ChunkData";
+        chunkDataDir /= sourceFileName;
+        if (chunkerType == ChunkerType::AE) {
+            chunkDataDir /= "AE_";
+        }
+        std::stringstream windowWidthStrstr;
+        windowWidthStrstr << (int)chunkerIntervalLength;
+        chunkDataDir += windowWidthStrstr.str();
+
+        if (!stdfs::exists(chunkDataDir)) {
+            stdfs::create_directories(chunkDataDir);
+        }
+    }
+
 
     _used = true;
     return stream;

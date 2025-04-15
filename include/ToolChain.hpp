@@ -2,6 +2,7 @@
 
 #include<cstdint>
 #include<memory>
+#include<filesystem>
 
 #include"StreamGenerator.hpp"
 #include"CDChunking.hpp"
@@ -54,6 +55,7 @@ namespace ToolChain {
 
         extern uint8_t chunkProcessThreadNum;
         extern CDChunking::MainChunkProcessor::ActionMode chunkProcessorActionMode;
+        extern std::filesystem::path chunkDataDir;
 
 
 
