@@ -46,7 +46,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     find_library(OpenSSL_SSL_LIB    libssl      PATHS ${OpenSSL_LIB_DIR})
     find_library(OpenSSL_CRYPTO_LIB libcrypto   PATHS ${OpenSSL_LIB_DIR})
 
-    find_library(WinSock_LIB ws2_32)
+    # find_library(WinSock_LIB ws2_32.lib)
 
     list(APPEND
         ALL_LIB_FILES
@@ -54,7 +54,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
         ${wpcap_LIB}
         ${OpenSSL_SSL_LIB}
         ${OpenSSL_CRYPTO_LIB}
-        ${WinSock_LIB}
+        ws2_32.lib
     )
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     find_library(pcap_LIB   pcap    PATHS ${pcap_LIB_DIR})

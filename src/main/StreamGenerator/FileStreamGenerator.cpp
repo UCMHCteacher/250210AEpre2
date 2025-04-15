@@ -98,7 +98,7 @@ StreamGenerators::FileStreamGenerator::getStream() {
             chunkDataDir /= "AE_";
         }
         std::stringstream windowWidthStrstr;
-        windowWidthStrstr << (int)chunkerIntervalLength;
+        windowWidthStrstr << (int)chunkerWindowWidth;
         chunkDataDir += windowWidthStrstr.str();
 
         if (!stdfs::exists(chunkDataDir)) {

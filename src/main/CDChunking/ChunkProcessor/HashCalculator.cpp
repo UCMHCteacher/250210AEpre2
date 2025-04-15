@@ -55,13 +55,7 @@ CDChunking::HashCalculator::operator() (std::shared_ptr<ChunkPackage> chunkPacka
 
 
     uint32_t len = 0;
-    uint8_t *  output = static_cast<uint8_t*>(OPENSSL_malloc(
-#if OPENSSL_API_LEVEL >= 30000
-        EVP_MD_get_size(_mdAlgo)
-#else
-        EVP_MD_size(_mdAlgo)
-#endif
-    ));
+    uint8_t *  output = static_cast<uint8_t*>(OPENSSL_malloc(EVP_MD_size(_mdAlgo)));
     if (!EVP_DigestFinal_ex(_ctx, output, &len)) {
         std::lock_guard lk(ToolChain::_coutMutex);
         std::cout << "Hash calculate Failed.\n";
