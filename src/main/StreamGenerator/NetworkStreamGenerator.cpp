@@ -5,6 +5,7 @@
 
 #include"NetworkTools.hpp"
 
+#include"Summary.hpp"
 #include"ToolChain.hpp"
 using ToolChain::_coutMutex;
 
@@ -106,6 +107,8 @@ std::shared_ptr<std::istream> StreamGenerators::NetworkStreamGenerator::getStrea
     int retVal = 0;
 
     do {
+        Summary::Entry();
+
         retVal = pcap_next_ex(_deviceHandle, &_hdr, &_data);
 
         if (retVal == 1) {

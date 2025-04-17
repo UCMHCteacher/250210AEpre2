@@ -2,6 +2,8 @@
 #include"ArgumentHandler.hpp"
 #include"ToolChain.hpp"
 #include"DataBaseTools.hpp"
+#include"Summary.hpp"
+
 
 #include<sstream>
 
@@ -240,6 +242,46 @@ void RTVarRegister() {
         ""
     );
 
+    ArgumentHandler::RTVar::Param::Register(
+        "ChunkDataOutputPath",
+        [](std::string & valueStr) {
+            ToolChain::Builder::chunkDataDir = valueStr;
+        },
+        "<String>",
+        "the validity of path value is checked by YOURSELF! So don't edit it unless you know what you're doing."
+    );
+
+
+
+
+
+    ArgumentHandler::RTVar::Param::Register(
+        "SummaryNeeded",
+        [](std::string & valueStr) {
+            Summary::needed = true;
+        },
+        "",
+        "This is for the case where you need a summary but don't wanna assign a path. Summary file will generate in ./"
+    );
+
+    ArgumentHandler::RTVar::Param::Register(
+        "SummaryOutputPath",
+        [](std::string & valueStr) {
+            Summary::outputPath = valueStr;
+            Summary::needed = true;
+        },
+        "<String>",
+        "the validity of path value is checked by YOURSELF! So don't edit it unless you know what you're doing. If this is set, SummaryNeeded is automatically set."
+    );
+
+    ArgumentHandler::RTVar::Param::Register(
+        "SummaryTerminateFilePath",
+        [](std::string & valueStr) {
+            Summary::terminateSymbol = valueStr;
+        },
+        "<String>",
+        "the validity of path value is checked by YOURSELF! So don't edit it unless you know what you're doing."
+    );
 
 
 

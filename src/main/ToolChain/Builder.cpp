@@ -48,7 +48,7 @@ CDChunking::MainChunkProcessor::ActionMode
 ToolChain::Builder::chunkProcessorActionMode = CDChunking::MainChunkProcessor::ActionMode::PrintToConsole;
 
 std::filesystem::path 
-ToolChain::Builder::chunkDataDir{};
+ToolChain::Builder::chunkDataDir{"./ChunkData"};
 
 
 

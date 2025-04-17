@@ -92,7 +92,6 @@ StreamGenerators::FileStreamGenerator::getStream() {
         using namespace ToolChain::Builder;
 
         // forming paths
-        chunkDataDir = "./ChunkData";
         chunkDataDir /= sourceFileName;
         if (chunkerType == ChunkerType::AE) {
             chunkDataDir /= "AE_";
