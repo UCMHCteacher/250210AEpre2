@@ -34,7 +34,7 @@ MainChunkProcessor::operator() (std::shared_ptr<ChunkPackage> chunkPackage) {
         HashCalculator h;
         h(chunkPackage);
     }
-    ThreadPool chunkActionPool(ToolChain::Builder::chunkProcessThreadNum);
+    ThreadPool chunkActionPool(_processors.size());
 
     for (auto &  _processor : _processors) {
         chunkActionPool.enqueue_void(

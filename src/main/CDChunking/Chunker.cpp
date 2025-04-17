@@ -14,3 +14,9 @@ Chunker::SetChunkProcessor(const std::shared_ptr<ChunkProcessInterface> & other)
 std::shared_ptr<ChunkProcessInterface> Chunker::GetChunkProcessor() {
     return this->_chunkProcessor;
 };
+
+
+uint32_t
+Chunker::getStreamCount() {
+    return _streamCount;
+}
