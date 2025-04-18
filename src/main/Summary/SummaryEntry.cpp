@@ -1,6 +1,7 @@
 #include<filesystem>
 
 #include"Summary.hpp"
+#include"ToolChain.hpp"
 
 
 
@@ -14,7 +15,8 @@ Summary::Entry() {
     if (!needed)
         return;
 
-    if (!std::filesystem::exists(terminateSymbol))
+    using namespace ToolChain::Builder;
+    if (SourceType::Network == sourceType && !std::filesystem::exists(terminateSymbol))
         return;
 
     Printer();
