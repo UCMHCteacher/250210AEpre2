@@ -86,7 +86,7 @@ CDChunking::DatabaseComparer::operator() (std::shared_ptr<ChunkPackage> chunkPac
             std::lock_guard lk{Summary::correctnessDataMutex};
 
             auto insertIt = Summary::correctnessData.try_emplace(fitChunkInfo.file_id, 1);
-            if (insertIt.second) {
+            if (!insertIt.second) {
                 insertIt.first->second++;
             }
         }
