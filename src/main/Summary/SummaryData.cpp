@@ -7,7 +7,7 @@ bool
 Summary::needed {false};
 
 std::filesystem::path
-Summary::outputPath {"./Summary.txt"};
+Summary::outputPath {"./Summary.json"};
 
 std::filesystem::path
 Summary::terminateSymbol {"./DaCoda"};
