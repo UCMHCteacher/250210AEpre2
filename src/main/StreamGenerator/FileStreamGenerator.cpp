@@ -20,7 +20,7 @@ StreamGenerators::FileStreamGenerator::~FileStreamGenerator() {}
 
 
 
-std::shared_ptr<std::istream>
+std::shared_ptr<StreamPackage>
 StreamGenerators::FileStreamGenerator::getStream() {
     if (_used) return nullptr;
 
@@ -107,5 +107,5 @@ StreamGenerators::FileStreamGenerator::getStream() {
 
 
     _used = true;
-    return stream;
+    return std::make_shared<StreamPackage>(stream);
 }

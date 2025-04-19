@@ -1,5 +1,6 @@
 #include"CDChunking.hpp"
 #include"ToolChain.hpp"
+#include"StreamGenerator.hpp"
 
 
 
@@ -7,7 +8,7 @@ using namespace CDChunking;
 
 
 
-void AE::chunk(std::shared_ptr<std::istream> stream) {
+void AE::chunk(std::shared_ptr<StreamPackage> streamPackage) {
     uint32_t thisStreamNum;
     {
         std::lock_guard lk(_streamCountMutex);
@@ -15,6 +16,8 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
         _streamCount++;
     }
     ThreadPool chunkProcessPool(ToolChain::Builder::chunkProcessThreadNum);
+
+    std::istream &  stream{*(streamPackage->_stream)};
 
 
     std::size_t nowPos = -1;
@@ -24,10 +27,10 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
     std::vector<uint8_t> chunkData;
     std::size_t chunkBeginPos = 0;
 
-    uint8_t maxValue = stream->peek();
+    uint8_t maxValue = stream.peek();
     std::size_t maxPos = 0;
 
-    while (nowData = stream->get(),!stream->eof()) {
+    while (nowData = stream.get(),!stream.eof()) {
         nowPos++;
         chunkData.push_back(nowData);
 
@@ -56,7 +59,7 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
             // next chunk 
             chunkData = {};
             chunkNum ++;
-            maxValue = stream->peek();
+            maxValue = stream.peek();
             maxPos = nowPos + 1;
             chunkBeginPos = nowPos + 1;
         }
@@ -66,8 +69,10 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
         
         
     };
+    streamPackage->_streamSize = nowPos + 1;
 
     if (chunkData.size() == 0) {
+        streamPackage->_chunkCount = chunkNum;
         return;
     }
     std::shared_ptr<ChunkPackage> package = std::make_shared<ChunkPackage>(
@@ -82,6 +87,7 @@ void AE::chunk(std::shared_ptr<std::istream> stream) {
             (*chunkProcessor)(package);
         }
     );
+    streamPackage->_chunkCount = chunkNum + 1;
 }
 
 

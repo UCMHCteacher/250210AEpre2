@@ -9,6 +9,7 @@
 #include<openssl/ssl.h>
 #include<openssl/err.h>
 
+#include"StreamGenerator.hpp"
 
 
 
@@ -68,7 +69,7 @@ namespace CDChunking {
         std::shared_ptr<ChunkProcessInterface> GetChunkProcessor();
 
     public:
-        virtual void chunk(std::shared_ptr<std::istream> stream) = 0;
+        virtual void chunk(std::shared_ptr<StreamPackage> streamPackage) = 0;
     };
 
 
@@ -81,7 +82,7 @@ namespace CDChunking {
         uint16_t _windowWidth;
 
     public:
-        virtual void chunk(std::shared_ptr<std::istream> stream) override;
+        virtual void chunk(std::shared_ptr<StreamPackage> streamPackage) override;
     
     public:
         AE(uint8_t intervalLength, uint16_t windowWidth);
@@ -94,7 +95,7 @@ namespace CDChunking {
         public Chunker 
     {
     public:
-        virtual void chunk(std::shared_ptr<std::istream> stream) override;
+        virtual void chunk(std::shared_ptr<StreamPackage> streamPackage) override;
     };
 
 

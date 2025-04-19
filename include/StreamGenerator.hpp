@@ -4,9 +4,28 @@
 #include<memory>
 #include<string>
 #include<fstream>
+#include<chrono>
 
 #include<pcap.h>
 
+
+
+
+struct StreamPackage {
+public:
+    std::chrono::time_point<std::chrono::steady_clock>  _start;
+    std::shared_ptr<std::istream>  _stream;
+    uint32_t  _chunkCount;
+    std::size_t  _streamSize;
+
+
+public:
+    StreamPackage() = delete;
+    StreamPackage(StreamPackage const &) = default;
+    StreamPackage(StreamPackage &&) = default;
+    StreamPackage(std::shared_ptr<std::istream> other);
+    ~StreamPackage();
+};
 
 
 
@@ -14,7 +33,7 @@ namespace StreamGenerators
 {
     class StreamGenerator {
     public:
-        virtual std::shared_ptr<std::istream> getStream() = 0;
+        virtual std::shared_ptr<StreamPackage> getStream() = 0;
     };
 
 
@@ -23,7 +42,7 @@ namespace StreamGenerators
         public StreamGenerator
     {
     public:
-        virtual std::shared_ptr<std::istream> getStream();
+        virtual std::shared_ptr<StreamPackage> getStream();
 
     protected:
         bool _used;
@@ -41,7 +60,7 @@ namespace StreamGenerators
         public StreamGenerator
     {
     public:
-        virtual std::shared_ptr<std::istream> getStream();
+        virtual std::shared_ptr<StreamPackage> getStream();
     
     protected:
         pcap_t * _deviceHandle;

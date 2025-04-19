@@ -97,7 +97,8 @@ StreamGenerators::NetworkStreamGenerator::~NetworkStreamGenerator() {
 
 
 
-std::shared_ptr<std::istream> StreamGenerators::NetworkStreamGenerator::getStream() {
+std::shared_ptr<StreamPackage>
+StreamGenerators::NetworkStreamGenerator::getStream() {
     if (!_enabled)
         return nullptr;
 
@@ -112,11 +113,13 @@ std::shared_ptr<std::istream> StreamGenerators::NetworkStreamGenerator::getStrea
         retVal = pcap_next_ex(_deviceHandle, &_hdr, &_data);
 
         if (retVal == 1) {
-            return std::make_shared<std::istringstream>(
-                std::string(
-                    reinterpret_cast<char*>(const_cast<u_char*>(_data)), 
-                    _hdr->caplen)
-            );
+            return std::make_shared<StreamPackage>(
+                    std::make_shared<std::istringstream>(
+                        std::string(
+                            reinterpret_cast<char*>(const_cast<u_char*>(_data)), 
+                            _hdr->caplen)
+                    )
+                );
         }
 
         if (retVal < 0) {

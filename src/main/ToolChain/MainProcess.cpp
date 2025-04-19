@@ -11,11 +11,12 @@ ToolChain::StartProcess() {
 
     ThreadPool chunkingPool(Builder::chunkerThreadnum);
 
-    std::shared_ptr<std::istream> streamtoChunk = nullptr;
-    while (streamtoChunk = streamGenerator->getStream()) {
+    std::shared_ptr<StreamPackage> streamPackagetoChunk = nullptr;
+    while (streamPackagetoChunk = streamGenerator->getStream()) {
+        streamPackagetoChunk->_start = std::chrono::steady_clock::now();
         chunkingPool.enqueue_void(
-            [_chunker = std::ref(chunker), streamtoChunk]() {
-                _chunker.get()->chunk(streamtoChunk);
+            [_chunker = std::ref(chunker), streamPackagetoChunk]() {
+                _chunker.get()->chunk(streamPackagetoChunk);
             }
         );
 
