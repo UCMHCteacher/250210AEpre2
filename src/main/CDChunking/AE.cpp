@@ -9,12 +9,8 @@ using namespace CDChunking;
 
 
 void AE::chunk(std::shared_ptr<StreamPackage> streamPackage) {
-    uint32_t thisStreamNum;
-    {
-        std::lock_guard lk(_streamCountMutex);
-        thisStreamNum = _streamCount;
-        _streamCount++;
-    }
+    uint32_t thisStreamNum = streamPackage->_streamNum;
+
     ThreadPool chunkProcessPool(ToolChain::Builder::chunkProcessThreadNum);
 
     std::istream &  stream{*(streamPackage->_stream)};
@@ -97,6 +93,5 @@ AE::AE(uint8_t intervalLength, uint16_t windowWidth):
     _windowWidth(windowWidth)
 {
     _chunkProcessor = nullptr;
-    _streamCount = 0;
 }
 AE::~AE() {}

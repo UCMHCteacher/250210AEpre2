@@ -17,7 +17,7 @@ public:
     std::shared_ptr<std::istream>  _stream;
     uint32_t  _chunkCount;
     std::size_t  _streamSize;
-
+    uint32_t  _streamNum;
 
 public:
     StreamPackage() = delete;
@@ -25,6 +25,9 @@ public:
     StreamPackage(StreamPackage &&) = default;
     StreamPackage(std::shared_ptr<std::istream> other);
     ~StreamPackage();
+
+public:
+    void Setup();
 };
 
 

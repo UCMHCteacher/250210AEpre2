@@ -21,6 +21,9 @@ ToolChain::streamGenerator = nullptr;
 uint32_t
 ToolChain::fileID_DB = 0;
 
+uint32_t 
+ToolChain::streamCount = 0;
+
 
 
 ToolChain::Builder::ChunkerType

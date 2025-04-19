@@ -13,7 +13,7 @@ ToolChain::StartProcess() {
 
     std::shared_ptr<StreamPackage> streamPackagetoChunk = nullptr;
     while (streamPackagetoChunk = streamGenerator->getStream()) {
-        streamPackagetoChunk->_start = std::chrono::steady_clock::now();
+        streamPackagetoChunk->Setup();
         chunkingPool.enqueue_void(
             [_chunker = std::ref(chunker), streamPackagetoChunk]() {
                 _chunker.get()->chunk(streamPackagetoChunk);

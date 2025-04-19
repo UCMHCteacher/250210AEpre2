@@ -8,7 +8,8 @@ StreamPackage::StreamPackage(std::shared_ptr<std::istream> other):
     _start{},
     _stream{other},
     _chunkCount{0},
-    _streamSize{0}
+    _streamSize{0},
+    _streamNum{0}
 {};
 
 
@@ -23,4 +24,13 @@ StreamPackage::~StreamPackage() {
             << "ChunkCount: " << _chunkCount << "\n"
             << "StreamSize: " << _streamSize << "\n\n";
     }
+}
+
+
+
+void
+StreamPackage::Setup() {
+    _start = std::chrono::steady_clock::now();
+    _streamNum = ToolChain::streamCount;
+    ToolChain::streamCount++;
 }

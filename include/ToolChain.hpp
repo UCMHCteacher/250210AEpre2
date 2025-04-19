@@ -23,6 +23,7 @@ namespace ToolChain {
     // TODO: extern chunkProcessor
 
     extern uint32_t fileID_DB;
+    extern uint32_t streamCount;
 
 
 

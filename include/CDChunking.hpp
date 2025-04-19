@@ -57,12 +57,6 @@ namespace CDChunking {
     class Chunker
     {
     protected:
-        uint32_t _streamCount;
-        std::mutex _streamCountMutex;
-    public:
-        uint32_t getStreamCount();
-
-    protected:
         std::shared_ptr<ChunkProcessInterface> _chunkProcessor;
     public:
         void SetChunkProcessor(const std::shared_ptr<ChunkProcessInterface> &);
