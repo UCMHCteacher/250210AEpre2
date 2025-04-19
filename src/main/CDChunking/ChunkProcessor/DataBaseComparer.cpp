@@ -4,7 +4,7 @@
 #include"CDChunking.hpp"
 #include"DataBaseTools.hpp"
 #include"ToolChain.hpp"
-
+#include"Summary.hpp"
 
 
 
@@ -77,6 +77,19 @@ CDChunking::DatabaseComparer::operator() (std::shared_ptr<ChunkPackage> chunkPac
         }
 
         std::cout << "\n\n";
+    }
+
+
+
+    if (fitChunkList.size() > 0  &&  Summary::needed) {
+        for (auto const &  fitChunkInfo : fitChunkList) {
+            std::lock_guard lk{Summary::correctnessDataMutex};
+
+            auto insertIt = Summary::correctnessData.try_emplace(fitChunkInfo.file_id, 1);
+            if (insertIt.second) {
+                insertIt.first->second++;
+            }
+        }
     }
 
 
