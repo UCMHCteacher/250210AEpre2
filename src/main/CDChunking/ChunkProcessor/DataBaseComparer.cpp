@@ -53,7 +53,9 @@ CDChunking::DatabaseComparer::operator() (std::shared_ptr<ChunkPackage> chunkPac
     }
 
 
-    if (fitChunkList.size() > 0) {
+    if (fitChunkList.size() > 0 && 
+        ToolChain::Builder::chunkProcessorActionMode & MainChunkProcessor::ActionMode::PrintToConsole
+    ) {
         std::lock_guard lkc(ToolChain::_coutMutex);
 
         std::cout
