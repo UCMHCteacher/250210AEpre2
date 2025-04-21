@@ -3,6 +3,7 @@
 #include<filesystem>
 #include<map>
 #include<mutex>
+#include<vector>
 #include"StreamGenerator.hpp"
 
 
