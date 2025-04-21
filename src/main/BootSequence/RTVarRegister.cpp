@@ -59,13 +59,12 @@ void RTVarRegister() {
     );
 
     ArgumentHandler::RTVar::Param::Register(
-        "NetworkNum",
+        "NetworkDeviceIP",
         [](std::string & valueStr) {
-            ToolChain::Builder::networkNum =
-                atoi(valueStr.c_str());
+            ToolChain::Builder::networkDeviceIP = valueStr;
         },
-        "<NetworkNum(int)>",
-        "NetworkNum is defined by the output of -help=Network"
+        "<IP>",
+        "NetworkDeviceIP is defined by the output of -help=Network"
     );
 
 

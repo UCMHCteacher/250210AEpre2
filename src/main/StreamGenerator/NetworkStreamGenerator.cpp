@@ -12,20 +12,28 @@ using ToolChain::_coutMutex;
 
 
 
-StreamGenerators::NetworkStreamGenerator::NetworkStreamGenerator(uint16_t networkNum) :
+StreamGenerators::NetworkStreamGenerator::NetworkStreamGenerator(std::string networkDeviceIP) :
     _deviceHandle(nullptr),
     _enabled(false)
 {
-    if (networkNum >= networkList.size()) {
-        std::lock_guard lk(_coutMutex);
-        std::cout << "NetworkNum is OOB!\n";
+    NetworkNode networkToOpen;
+    std::hash<std::string> ipHash{};
+    for (auto &  networkNode : networkList) {
+        if (ipHash(networkDeviceIP) == ipHash(std::string(inet_ntoa(networkNode.deviceIPAddr)))) {
+            networkToOpen = networkNode;
+            break;
+        }
+    }
+
+    if (networkToOpen.deviceName.length() == 0) {
+        std::cout << "Cannot find network " << networkDeviceIP << '\n';
         return;
     }
 
 
     char errBuf[PCAP_ERRBUF_SIZE];
 
-    _deviceHandle = pcap_create(networkList[networkNum].deviceName.c_str(), errBuf);
+    _deviceHandle = pcap_create(networkToOpen.deviceName.c_str(), errBuf);
 
 
     if (_deviceHandle == nullptr) {

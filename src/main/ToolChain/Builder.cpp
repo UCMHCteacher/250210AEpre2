@@ -12,8 +12,8 @@ ToolChain::Builder::sourceFilePath = "111.txt";
 std::string
 ToolChain::Builder::sourceFileName = "";
 
-uint16_t
-ToolChain::Builder::networkNum = 0;
+std::string
+ToolChain::Builder::networkDeviceIP = "";
 
 std::unique_ptr<StreamGenerators::StreamGenerator>
 ToolChain::streamGenerator = nullptr;
@@ -65,8 +65,8 @@ ToolChain::Builder::Build() {
         std::cout << "Opening file: " << sourceFilePath << '\n';
         break;
     case SourceType::Network:
-        streamGenerator = std::make_unique<StreamGenerators::NetworkStreamGenerator>(networkNum);
-        std::cout << "Using Network " << networkNum << '\n';
+        streamGenerator = std::make_unique<StreamGenerators::NetworkStreamGenerator>(networkDeviceIP);
+        std::cout << "Using Network " << networkDeviceIP << '\n';
 
         chunkProcessorActionMode = 
             static_cast<CDChunking::MainChunkProcessor::ActionMode>(

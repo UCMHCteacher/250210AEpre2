@@ -69,7 +69,7 @@ namespace StreamGenerators
         pcap_t * _deviceHandle;
         bool _enabled;
     public:
-        NetworkStreamGenerator(uint16_t networkNum);
+        NetworkStreamGenerator(std::string networkDeviceIP);
         virtual ~NetworkStreamGenerator();
     };
 } // namespace StreamGenerators

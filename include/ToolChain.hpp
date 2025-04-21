@@ -38,7 +38,7 @@ namespace ToolChain {
 
         extern std::string sourceFilePath;
         extern std::string sourceFileName;
-        extern uint16_t networkNum;
+        extern std::string networkDeviceIP;
 
 
 
