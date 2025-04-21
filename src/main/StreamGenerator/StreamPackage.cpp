@@ -31,6 +31,7 @@ StreamPackage::~StreamPackage() {
         Summary::efficiencyData.emplace_back(
             Summary::EfficiencyRecord{
                 this->_streamNum,
+                this->_streamSize,
                 this->_chunkCount,
                 _duration
             }

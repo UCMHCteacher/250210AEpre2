@@ -20,6 +20,7 @@ namespace Summary {
 
     struct EfficiencyRecord {
         uint32_t  _streamNum;
+        std::size_t  _streamSize;
         uint32_t  _chunkCount;
         std::chrono::duration<double, std::milli> _duration;
     };

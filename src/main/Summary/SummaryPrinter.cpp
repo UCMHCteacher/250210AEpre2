@@ -26,18 +26,21 @@ Summary::Printer() {
             << Indents(1) << "\"Efficiency\" : [\n";
 
         auto efficiencyIt = efficiencyData.begin();
-        summaryFile
-            << Indents(2) << "{\n"
-            << Indents(3) << "\"StreamNum\" : " << efficiencyIt->_streamNum << ",\n"
-            << Indents(3) << "\"ChunkCount\" : " << efficiencyIt->_chunkCount << ",\n"
-            << Indents(3) << "\"TimeCost\" : " << efficiencyIt->_duration.count() << "\n"
-            << Indents(2) << "}";
+        if (efficiencyIt != efficiencyData.end())
+            summaryFile
+                << Indents(2) << "{\n"
+                << Indents(3) << "\"StreamNum\" : " << efficiencyIt->_streamNum << ",\n"
+                << Indents(3) << "\"StreamSize\" : " << efficiencyIt->_streamSize << ",\n"
+                << Indents(3) << "\"ChunkCount\" : " << efficiencyIt->_chunkCount << ",\n"
+                << Indents(3) << "\"TimeCost\" : " << efficiencyIt->_duration.count() << "\n"
+                << Indents(2) << "}";
 
         for (efficiencyIt++; efficiencyIt != efficiencyData.end(); efficiencyIt++) {
             summaryFile
                 << ",\n"
                 << Indents(2) << "{\n"
                 << Indents(3) << "\"StreamNum\" : " << efficiencyIt->_streamNum << ",\n"
+                << Indents(3) << "\"StreamSize\" : " << efficiencyIt->_streamSize << ",\n"
                 << Indents(3) << "\"ChunkCount\" : " << efficiencyIt->_chunkCount << ",\n"
                 << Indents(3) << "\"TimeCost\" : " << efficiencyIt->_duration.count() << "\n"
                 << Indents(2) << "}";
@@ -66,11 +69,13 @@ Summary::Printer() {
             << Indents(1) << "\"Correctness\" : [\n";
 
         auto correctnessIt = correctnessData.begin();
-        summaryFile
-            << Indents(2) << "{\n"
-            << Indents(3) << "\"FileID\" : " << correctnessIt->first << ",\n"
-            << Indents(3) << "\"Times\" : " << correctnessIt->second << "\n"
-            << Indents(2) << "}";
+        if (correctnessIt != correctnessData.end())
+            summaryFile
+                << Indents(2) << "{\n"
+                << Indents(3) << "\"FileID\" : " << correctnessIt->first << ",\n"
+                << Indents(3) << "\"Times\" : " << correctnessIt->second << "\n"
+                << Indents(2) << "}";
+
         for (correctnessIt++; correctnessIt != correctnessData.end(); correctnessIt++) {
             summaryFile
                 << ",\n"
@@ -85,6 +90,7 @@ Summary::Printer() {
     }
 
     summaryFile << "\n}";
+    summaryFile.close();
 
 
     std::exit(EXIT_SUCCESS);
