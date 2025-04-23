@@ -58,6 +58,8 @@ ToolChain::Builder::chunkDataDir{"./ChunkData"};
 
 void 
 ToolChain::Builder::Build() {
+    using ActionMode = CDChunking::MainChunkProcessor::ActionMode;
+
     switch (sourceType) 
     {
     case SourceType::File:
@@ -69,10 +71,10 @@ ToolChain::Builder::Build() {
         std::cout << "Using Network " << networkDeviceIP << '\n';
 
         chunkProcessorActionMode = 
-            static_cast<CDChunking::MainChunkProcessor::ActionMode>(
+            static_cast<ActionMode>(
                 chunkProcessorActionMode &
-                (~CDChunking::MainChunkProcessor::ActionMode::RecordToDataBase) &
-                (~CDChunking::MainChunkProcessor::ActionMode::GenerateChunkFile)
+                (~ActionMode::RecordToDataBase) &
+                (~ActionMode::GenerateChunkFile)
             );
         break;
     default:
@@ -80,6 +82,12 @@ ToolChain::Builder::Build() {
         break;
     }
 
+    if (chunkProcessorActionMode & ActionMode::CompareWithDataBase)
+        chunkProcessorActionMode = 
+            static_cast<ActionMode>(
+                chunkProcessorActionMode &
+                (~ActionMode::RecordToDataBase)
+            );
     std::shared_ptr<CDChunking::ChunkProcessInterface> chunkProcess = 
         std::make_shared<CDChunking::MainChunkProcessor>(chunkProcessorActionMode);
 
